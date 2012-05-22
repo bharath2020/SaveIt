@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
+
 @interface DVHelper : NSObject
 
 

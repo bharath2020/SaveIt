@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		982D5393156AAD7000D643D3 /* libFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 982D5392156AAD7000D643D3 /* libFMDB.a */; };
+		983C68E6156AB6D3005F2194 /* DVCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 983C68E5156AB6D3005F2194 /* DVCardManager.m */; };
 		FA7D48441568C2DA00B00ECC /* DVCard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7D48431568C2DA00B00ECC /* DVCard.m */; };
 		FA96920E155F3FDE001A0085 /* DVCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = FA96920D155F3FDE001A0085 /* DVCategory.m */; };
 		FA969213155F46D8001A0085 /* DVCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA969212155F46D8001A0085 /* DVCategoryManager.m */; };
 		FA969217155F8212001A0085 /* saveit.db in Resources */ = {isa = PBXBuildFile; fileRef = FA969216155F8212001A0085 /* saveit.db */; };
-		FA969219155F82EB001A0085 /* libFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA969218155F82EB001A0085 /* libFMDB.a */; };
 		FA96921C155F8453001A0085 /* DVHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FA96921B155F8453001A0085 /* DVHelper.m */; };
 		FA96921E155F959F001A0085 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA96921D155F959F001A0085 /* libsqlite3.0.dylib */; };
 		FAB085DA1564D2C800A4A419 /* DVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB085D91564D2C800A4A419 /* DVUtilities.m */; };
@@ -26,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		982D5392156AAD7000D643D3 /* libFMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMDB.a; path = "../ccgus-fmdb-46614e2/build/Release-iphoneos/libFMDB.a"; sourceTree = "<group>"; };
+		983C68E4156AB6D3005F2194 /* DVCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCardManager.h; sourceTree = "<group>"; };
+		983C68E5156AB6D3005F2194 /* DVCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCardManager.m; sourceTree = "<group>"; };
 		FA7D48421568C2DA00B00ECC /* DVCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCard.h; sourceTree = "<group>"; };
 		FA7D48431568C2DA00B00ECC /* DVCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCard.m; sourceTree = "<group>"; };
 		FA96920C155F3FDE001A0085 /* DVCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategory.h; sourceTree = "<group>"; };
@@ -33,7 +37,6 @@
 		FA969211155F46D8001A0085 /* DVCategoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategoryManager.h; sourceTree = "<group>"; };
 		FA969212155F46D8001A0085 /* DVCategoryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCategoryManager.m; sourceTree = "<group>"; };
 		FA969216155F8212001A0085 /* saveit.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = saveit.db; sourceTree = "<group>"; };
-		FA969218155F82EB001A0085 /* libFMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMDB.a; path = "../../../../../../Users/macbook/Downloads/ccgus-fmdb-46614e2/build/Release-iphoneos/libFMDB.a"; sourceTree = "<group>"; };
 		FA96921A155F8453001A0085 /* DVHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVHelper.h; sourceTree = "<group>"; };
 		FA96921B155F8453001A0085 /* DVHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVHelper.m; sourceTree = "<group>"; };
 		FA96921D155F959F001A0085 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -59,8 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				982D5393156AAD7000D643D3 /* libFMDB.a in Frameworks */,
 				FA96921E155F959F001A0085 /* libsqlite3.0.dylib in Frameworks */,
-				FA969219155F82EB001A0085 /* libFMDB.a in Frameworks */,
 				FACBBE69155E381600FF4CC5 /* UIKit.framework in Frameworks */,
 				FACBBE6B155E381600FF4CC5 /* Foundation.framework in Frameworks */,
 				FACBBE6D155E381600FF4CC5 /* CoreGraphics.framework in Frameworks */,
@@ -77,6 +80,8 @@
 				FA969212155F46D8001A0085 /* DVCategoryManager.m */,
 				FA96921A155F8453001A0085 /* DVHelper.h */,
 				FA96921B155F8453001A0085 /* DVHelper.m */,
+				983C68E4156AB6D3005F2194 /* DVCardManager.h */,
+				983C68E5156AB6D3005F2194 /* DVCardManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -110,8 +115,8 @@
 		FACBBE59155E381500FF4CC5 = {
 			isa = PBXGroup;
 			children = (
+				982D5392156AAD7000D643D3 /* libFMDB.a */,
 				FA96921D155F959F001A0085 /* libsqlite3.0.dylib */,
-				FA969218155F82EB001A0085 /* libFMDB.a */,
 				FA969214155F8212001A0085 /* Resources */,
 				FACBBE6E155E381600FF4CC5 /* SaveIt */,
 				FACBBE67155E381500FF4CC5 /* Frameworks */,
@@ -247,6 +252,7 @@
 				FA96921C155F8453001A0085 /* DVHelper.m in Sources */,
 				FAB085DA1564D2C800A4A419 /* DVUtilities.m in Sources */,
 				FA7D48441568C2DA00B00ECC /* DVCard.m in Sources */,
+				983C68E6156AB6D3005F2194 /* DVCardManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,12 +298,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src";
+				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/R&D/SaveIt/SaveIt/Save\\ It/ccgus-fmdb-46614e2/**";
 			};
 			name = Debug;
 		};
@@ -314,13 +318,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src";
+				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/R&D/SaveIt/SaveIt/Save\\ It/ccgus-fmdb-46614e2/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -330,12 +332,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SaveIt/SaveIt-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src",
-				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SaveIt/SaveIt-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src";
+				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/R&D/SaveIt/SaveIt/Save\\ It/ccgus-fmdb-46614e2/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -345,12 +345,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SaveIt/SaveIt-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src",
-				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SaveIt/SaveIt-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/Projects/iOS/Save\\ It/ccgus-fmdb-46614e2/src";
+				USER_HEADER_SEARCH_PATHS = "/Volumes/Development/R&D/SaveIt/SaveIt/Save\\ It/ccgus-fmdb-46614e2/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
