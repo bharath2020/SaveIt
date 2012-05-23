@@ -9,10 +9,24 @@
 #import "DVCardManager.h"
 #import "DVHelper.h"
 #import "DVCard.h"
+#import "DVCategory.h"
 
 NSString * DVCardsUpdateNotificationEvent = @"cards_update";
 
+#define CARD_ID @"card_id"
+#define CARD_TITLE @"card_title"
+#define CARD_CATEGORY_ID @"card_category_id"
+#define CARD_ICON_NAME @"card_icon_name"
+#define CARD_FIELD_NAME @"card_field_name"
+#define CARD_FIELD_SCRAMBLE @"card_field_scramble"
+#define CARD_FIELD_VALUES @"card_field_value"
+#define CARD_NOTE @"card_note"
+#define CARD_IS_FAVORITE @"card_is_favorite"
+#define CARD_LAST_MODIFIED @"card_last_modified"
+
+
 @implementation DVCardManager
+@synthesize parentCategory = _parentCategory;
 
 //-----------------Init
 -(id)init
@@ -69,22 +83,29 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
 {
     FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
     [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
-        FMResultSet *result = [db executeQuery:@"SELECT * FROM CATEGORY"];
-        NSMutableArray *categoryArray = [[NSMutableArray alloc] init];
+        
+        FMResultSet *result = [db executeQuery:@"SELECT * FROM CARD"];
+        NSMutableArray *cardsArray = [[NSMutableArray alloc] init];
         
         while ([result next]) {
-            DVCard *category = [[DVCard alloc]init];
-            category.categoryID = [result unsignedLongLongIntForColumn:CATEGORY_ID];
-            category.categoryName = [result stringForColumn:CATEGORY_NAME];
-            [category setFieldNames:[result stringForColumn:CATEGORY_FIELD_NAMES] scramble:[result stringForColumn:CATEGORY_FIELD_SCRAMBLE]];
-            category.iconName = [result stringForColumn:CATEGORY_FIELD_ICON_NAME];
-            [categoryArray addObject:category];
+            DVCard *card = [[DVCard alloc]init];
+            card.cardID = [result unsignedLongLongIntForColumn:CARD_ID];
+            card.title = [result stringForColumn:CARD_TITLE];
+            card.iconName = [result stringForColumn:CARD_ICON_NAME];
+            NSString *fieldNames = [result stringForColumn:CARD_FIELD_NAME];
+            NSString *fieldValues = [result stringForColumn:CARD_FIELD_VALUES];
+            NSString *scramble = [result stringForColumn:CARD_FIELD_SCRAMBLE];
+            [card setFieldNames:fieldNames scramble:scramble fieldValues:fieldValues];
+            card.isFavorite = [result boolForColumn:CARD_IS_FAVORITE];
+            card.lastModifiedInterval = [result doubleForColumn:CARD_LAST_MODIFIED];
+                    
+            [cardsArray addObject:card];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [mObjects removeAllObjects];
-            [mObjects addObjectsFromArray:categoryArray];
-            [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
+            [mObjects addObjectsFromArray:cardsArray];
+            [[NSNotificationCenter defaultCenter ] postNotificationName:DVCardsUpdateNotificationEvent object:self];
         });
     }];
 }

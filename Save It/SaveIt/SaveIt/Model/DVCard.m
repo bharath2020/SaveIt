@@ -33,7 +33,8 @@
 @synthesize  iconName=mIconName;
 @synthesize  note=mNote;
 @synthesize  isFavorite=mIsFavorite;
-@dynamic   lastModifiedDate;
+@dynamic     lastModifiedDate;
+@synthesize  lastModifiedInterval;
 
 //----------- init
 - (id)init
@@ -81,17 +82,19 @@
     return  fieldName;
 }
 
--(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble
+-(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble fieldValues:(NSString *)fieldValues
 {
     NSArray *fieldNameArray = [fieldNames componentsSeparatedByString:@"|"];
     NSArray *scrambleArray = [scramble componentsSeparatedByString:@"|"];
+    NSArray *fieldValueArray = [fieldValues componentsSeparatedByString:@"|"];
+    
     
     if( [fieldNameArray count] == [scrambleArray count] )
     {
         [mFields removeAllObjects];
         for( NSUInteger index = 0 ; index < [fieldNameArray count] ; index++ )
         {
-            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[fieldNameArray objectAtIndex:index], CARD_FIELD_NAME,  [scrambleArray objectAtIndex:index],CARD_FIELD_VALUE,  nil];
+            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[fieldNameArray objectAtIndex:index], CARD_FIELD_NAME,  [scrambleArray objectAtIndex:index],CARD_FIELD_VALUE,[fieldValueArray objectAtIndex:index], CARD_FIELD_VALUE,nil];
             [mFields addObject:dict];
         }
     }

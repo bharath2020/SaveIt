@@ -29,6 +29,7 @@
 @property(nonatomic, strong)NSString *note;
 @property(nonatomic) BOOL isFavorite;
 @property(nonatomic, readonly) NSDate *lastModifiedDate;
+@property(nonatomic, assign) NSTimeInterval lastModifiedInterval;
 
 #pragma mark field list
 -(NSUInteger)totalFieldNames;
@@ -39,5 +40,6 @@
 -(NSString*)fieldNameString;
 -(NSString*)fieldValueString;
 -(NSString*)scrambleString;
+-(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble fieldValues:(NSString *)fieldValues;
 
 @end

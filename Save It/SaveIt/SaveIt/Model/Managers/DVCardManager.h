@@ -8,15 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@class DVCard;
+@class DVCard,DVCategory;
 
 extern NSString * DVCardsUpdateNotificationEvent;
 
 @interface DVCardManager : NSObject
 {
     NSMutableArray *mObjects;
+    __unsafe_unretained DVCategory *_parentCategory;
 
 }
+@property(nonatomic, unsafe_unretained) DVCategory *parentCategory;
+
 -(void)registerForUpdates:(SEL)selector target:(id)self;
 -(void)unregisterFromUpdates:(id)target;
 
