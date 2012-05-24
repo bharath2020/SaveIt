@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Save It/SaveIt/SaveIt.xcodeproj">
+      location = "group:SaveIt/SaveIt/SaveIt.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Save It/ccgus-fmdb-46614e2/fmdb.xcodeproj">
+      location = "group:SaveIt/ccgus-fmdb-46614e2/fmdb.xcodeproj">
    </FileRef>
 </Workspace>
