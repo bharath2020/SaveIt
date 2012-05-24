@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Save It/SaveIt/SaveIt.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Save It/ccgus-fmdb-46614e2/fmdb.xcodeproj">
+   </FileRef>
+</Workspace>
