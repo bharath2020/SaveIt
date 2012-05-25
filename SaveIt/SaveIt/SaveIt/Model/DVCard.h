@@ -10,6 +10,19 @@
 
 @class DVCategory;
 
+#define CARD_ID @"card_id"
+#define CARD_TITLE @"card_title"
+#define CARD_CATEGORY_ID @"card_category_id"
+#define CARD_ICON_NAME @"card_icon_name"
+#define CARD_FIELD_NAME @"card_field_name"
+#define CARD_FIELD_SCRAMBLE @"card_field_scramble"
+#define CARD_FIELD_VALUES @"card_field_value"
+#define CARD_NOTE @"card_note"
+#define CARD_IS_FAVORITE @"card_is_favorite"
+#define CARD_LAST_MODIFIED @"card_last_modified"
+
+extern NSString *const DVCardDidUpdateNotification;
+
 @interface DVCard : NSObject
 {
     NSUInteger mCardID;
@@ -41,5 +54,7 @@
 -(NSString*)fieldValueString;
 -(NSString*)scrambleString;
 -(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble fieldValues:(NSString *)fieldValues;
+
+-(void)loadDetails;
 
 @end

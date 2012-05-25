@@ -12,6 +12,8 @@
 
 extern NSString * DVCardsUpdateNotificationEvent;
 
+
+
 @interface DVCardManager : NSObject
 {
     NSMutableArray *mObjects;

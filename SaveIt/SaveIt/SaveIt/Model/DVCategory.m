@@ -7,6 +7,9 @@
 //
 
 #import "DVCategory.h"
+#import "DVCardManager.h"
+#import "DVCard.h"
+#import "DVHelper.h"
 
 //----------Constants
 #define CAT_FIELD_NAME_KEY @"fieldname"
@@ -26,9 +29,21 @@
     if( self )
     {
         mFieldNames = [[NSMutableArray alloc] init];
+        mCardManager = [[DVCardManager alloc] init];
+        mCardManager.parentCategory = self;
         mCategoryID = NSUIntegerMax;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    NSUInteger totalCards = [mCardManager totalCards];
+    for( NSUInteger cardIndex = 0 ; cardIndex < totalCards ; cardIndex++ )
+    {
+        DVCard *card = [mCardManager cardAtIndex:cardIndex];
+        card.category = nil;
+    }
 }
 
 +(DVCategory*)newCategory
@@ -118,6 +133,11 @@
         [fieldValues addObject:(isScrambled ? @"1" : @"0")];
     }
     return  [fieldValues componentsJoinedByString:@"|"];
+}
+
+-(void)loadCards:(void (^)(BOOL finished))compltedBlock
+{
+    [mCardManager loadCards:compltedBlock];
 }
 
 

@@ -7,6 +7,8 @@
 //
 
 #import "DVCard.h"
+#import "DVHelper.h"
+#import "DVCategory.h"
 
 #define CARD_FIELD_ID  @"card_id"
 #define CARD_TITLE     @"card_title"
@@ -23,6 +25,8 @@
 #define CARD_FIELD_VALUE @"card_field_value"
 #define CARD_FIELD_SCRAMBLE @"card_field_scramble"
 
+
+NSString *const DVCardDidUpdateNotification = @"card_update";
 
 
 @implementation DVCard
@@ -46,9 +50,6 @@
     }
     return self;
 }
-
-
-
 
 -(NSDate*)lastModifiedDate
 {
@@ -143,6 +144,46 @@
         [fieldValues addObject:(isScrambled ? @"1" : @"0")];
     }
     return  [fieldValues componentsJoinedByString:@"|"];
+}
+
+-(void)loadDetails
+{
+    FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
+    [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
+        
+        FMResultSet *result = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM CARD WHERE %@ = %u",CARD_ID, self.cardID ]];
+        
+        while ([result next]) {
+            self.cardID = [result unsignedLongLongIntForColumn:CARD_ID];
+            self.title = [result stringForColumn:CARD_TITLE];
+            self.iconName = [result stringForColumn:CARD_ICON_NAME];
+            NSString *fieldNames = [result stringForColumn:CARD_FIELD_NAME];
+            NSString *fieldValues = [result stringForColumn:CARD_FIELD_VALUES];
+            NSString *scramble = [result stringForColumn:CARD_FIELD_SCRAMBLE];
+            [self setFieldNames:fieldNames scramble:scramble fieldValues:fieldValues];
+            self.isFavorite = [result boolForColumn:CARD_IS_FAVORITE];
+            self.lastModifiedInterval = [result doubleForColumn:CARD_LAST_MODIFIED];
+            
+            
+            NSUInteger categoryID = [result unsignedLongLongIntForColumn:CARD_CATEGORY_ID];
+            FMResultSet *categorySearchResult = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM CATEGORY WHERE %@ = %u", CATEGORY_ID , categoryID]];
+            
+            if( [categorySearchResult next] )
+            {
+                DVCategory *category = [DVCategory newCategoryWithID:categoryID];
+                
+                category.categoryID = [result unsignedLongLongIntForColumn:CATEGORY_ID];
+                category.categoryName = [result stringForColumn:CATEGORY_NAME];
+                category.iconName = [result stringForColumn:CATEGORY_FIELD_ICON_NAME];
+                self.category = category;
+            }
+            
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter ] postNotificationName:DVCardDidUpdateNotification object:self];
+        });
+    }];
 }
 
 

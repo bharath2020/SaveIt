@@ -18,6 +18,8 @@ extern NSString * DVCategoriesUpdateNotification;
      
 }
 
++(DVCategoryManager*)sharedInstance;
+
 -(void)registerForUpdates:(SEL)selector target:(id)self;
 -(void)unregisterFromUpdates:(id)target;
 

@@ -13,16 +13,7 @@
 
 NSString * DVCardsUpdateNotificationEvent = @"cards_update";
 
-#define CARD_ID @"card_id"
-#define CARD_TITLE @"card_title"
-#define CARD_CATEGORY_ID @"card_category_id"
-#define CARD_ICON_NAME @"card_icon_name"
-#define CARD_FIELD_NAME @"card_field_name"
-#define CARD_FIELD_SCRAMBLE @"card_field_scramble"
-#define CARD_FIELD_VALUES @"card_field_value"
-#define CARD_NOTE @"card_note"
-#define CARD_IS_FAVORITE @"card_is_favorite"
-#define CARD_LAST_MODIFIED @"card_last_modified"
+
 
 
 @implementation DVCardManager
@@ -84,7 +75,7 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
     FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
     [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
         
-        FMResultSet *result = [db executeQuery:@"SELECT * FROM CARD"];
+        FMResultSet *result = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM CARD WHERE %@ = %u",CARD_CATEGORY_ID, _parentCategory.categoryID ]];
         NSMutableArray *cardsArray = [[NSMutableArray alloc] init];
         
         while ([result next]) {
@@ -98,6 +89,20 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
             [card setFieldNames:fieldNames scramble:scramble fieldValues:fieldValues];
             card.isFavorite = [result boolForColumn:CARD_IS_FAVORITE];
             card.lastModifiedInterval = [result doubleForColumn:CARD_LAST_MODIFIED];
+            
+            
+             NSUInteger categoryID = [result unsignedLongLongIntForColumn:CARD_CATEGORY_ID];
+             FMResultSet *categorySearchResult = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM CATEGORY WHERE %@ = %u", CATEGORY_ID , categoryID]];
+
+             if( [categorySearchResult next] )
+             {
+                 DVCategory *category = [DVCategory newCategoryWithID:categoryID];
+                 
+                 category.categoryID = [result unsignedLongLongIntForColumn:CATEGORY_ID];
+                 category.categoryName = [result stringForColumn:CATEGORY_NAME];
+                 category.iconName = [result stringForColumn:CATEGORY_FIELD_ICON_NAME];
+                 card.category = category;
+             }
                     
             [cardsArray addObject:card];
         }
@@ -106,6 +111,7 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
             [mObjects removeAllObjects];
             [mObjects addObjectsFromArray:cardsArray];
             [[NSNotificationCenter defaultCenter ] postNotificationName:DVCardsUpdateNotificationEvent object:self];
+            completed(YES);
         });
     }];
 }

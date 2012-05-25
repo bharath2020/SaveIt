@@ -11,18 +11,22 @@
 #import "FMDatabase.h"
 #import "DVCategory.h"
 
-//---------Table Keys
-#define CATEGORY_ID @"category_id"
-#define CATEGORY_NAME @"category_name"
-#define CATEGORY_FIELD_NAMES  @"category_fields"
-#define CATEGORY_FIELD_SCRAMBLE  @"category_field_scramble"
-#define CATEGORY_FIELD_ICON_NAME @"category_icon_name"
+
 
 NSString * DVCategoriesUpdateNotification = @"categories_update";
 
 
-
+static DVCategoryManager *sSharedManager = nil;
 @implementation DVCategoryManager
+
++(DVCategoryManager*)sharedInstance
+{
+    if( sSharedManager == nil )
+    {
+        sSharedManager = [[DVCategoryManager alloc] init];
+    }
+    return  sSharedManager;
+}
 
 //-----------------Init
 -(id)init
@@ -95,6 +99,7 @@ NSString * DVCategoriesUpdateNotification = @"categories_update";
             [mObjects removeAllObjects];
             [mObjects addObjectsFromArray:categoryArray];
             [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
+            completed(YES);
         });
     }];
 }
@@ -128,6 +133,7 @@ NSString * DVCategoriesUpdateNotification = @"categories_update";
             BOOL status = [db executeUpdate:[NSString stringWithFormat:@"DELETE FROM CATEGORY WHERE %@ = %u", CATEGORY_ID, category.categoryID]];
             if( status )
             {
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [mObjects removeObject:category];
                     [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
