@@ -16,4 +16,6 @@
 
 @property (strong, nonatomic) DVViewController *viewController;
 
+@property (strong, nonatomic) UITabBarController *tabBarController;
+
 @end

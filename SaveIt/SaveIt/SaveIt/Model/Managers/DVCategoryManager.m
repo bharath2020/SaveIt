@@ -35,6 +35,8 @@ static DVCategoryManager *sSharedManager = nil;
     if( self )
     {
         mObjects = [[NSMutableArray alloc] init];
+        [self loadCategories:^(BOOL completed){
+        }];
     }
     return self;
 }

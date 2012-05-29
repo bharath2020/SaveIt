@@ -9,18 +9,35 @@
 #import "DVAppDelegate.h"
 
 #import "DVViewController.h"
+#import "DVCardsViewcontroller.h"
+#import "DVCategoryListViewController.h"
 
 @implementation DVAppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
+@synthesize tabBarController = _tabBarController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    //create a tab bar
+    DVCardsViewController *cardsViewController = [[DVCardsViewController alloc] initWithNibName:@"DVCardsViewController" bundle:nil];
+    
+    DVCategoryListViewController *categoryListViewController = [[DVCategoryListViewController alloc] initWithNibName:@"DVCategoryListViewController" bundle:nil];
+    UINavigationController *categoryNavController = [[UINavigationController alloc] initWithRootViewController:categoryListViewController];
+    
+
+    
+    self.tabBarController = [[UITabBarController alloc] init];
+    [self.tabBarController setViewControllers:[NSArray arrayWithObjects:cardsViewController,categoryNavController, nil]];
+    
+    
     // Override point for customization after application launch.
-    self.viewController = [[DVViewController alloc] initWithNibName:@"DVViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    //self.viewController = self.tabBarController;
+//    self.viewController = [[DVViewController alloc] initWithNibName:@"DVViewController" bundle:nil];
+    self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
     return YES;
 }

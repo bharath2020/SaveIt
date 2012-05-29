@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		982D5393156AAD7000D643D3 /* libFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 982D5392156AAD7000D643D3 /* libFMDB.a */; };
 		983C68E6156AB6D3005F2194 /* DVCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 983C68E5156AB6D3005F2194 /* DVCardManager.m */; };
+		98A8E49D157573AA003FCCBA /* DVCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */; };
+		98A8E49E157573AA003FCCBA /* DVCategoryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */; };
+		98A8E4A315757433003FCCBA /* DVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E4A115757433003FCCBA /* DVCardsViewController.m */; };
+		98A8E4A415757433003FCCBA /* DVCardsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8E4A215757433003FCCBA /* DVCardsViewController.xib */; };
+		98A8E4A8157589FA003FCCBA /* UIImage+Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E4A7157589FA003FCCBA /* UIImage+Loader.m */; };
 		FA7D48441568C2DA00B00ECC /* DVCard.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7D48431568C2DA00B00ECC /* DVCard.m */; };
 		FA96920E155F3FDE001A0085 /* DVCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = FA96920D155F3FDE001A0085 /* DVCategory.m */; };
 		FA969213155F46D8001A0085 /* DVCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA969212155F46D8001A0085 /* DVCategoryManager.m */; };
@@ -30,6 +35,14 @@
 		982D5392156AAD7000D643D3 /* libFMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMDB.a; path = "../ccgus-fmdb-46614e2/build/Release-iphoneos/libFMDB.a"; sourceTree = "<group>"; };
 		983C68E4156AB6D3005F2194 /* DVCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCardManager.h; sourceTree = "<group>"; };
 		983C68E5156AB6D3005F2194 /* DVCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCardManager.m; sourceTree = "<group>"; };
+		98A8E49A157573AA003FCCBA /* DVCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategoryListViewController.h; sourceTree = "<group>"; };
+		98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCategoryListViewController.m; sourceTree = "<group>"; };
+		98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCategoryListViewController.xib; sourceTree = "<group>"; };
+		98A8E4A015757433003FCCBA /* DVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCardsViewController.h; sourceTree = "<group>"; };
+		98A8E4A115757433003FCCBA /* DVCardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCardsViewController.m; sourceTree = "<group>"; };
+		98A8E4A215757433003FCCBA /* DVCardsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCardsViewController.xib; sourceTree = "<group>"; };
+		98A8E4A6157589FA003FCCBA /* UIImage+Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Loader.h"; sourceTree = "<group>"; };
+		98A8E4A7157589FA003FCCBA /* UIImage+Loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Loader.m"; sourceTree = "<group>"; };
 		FA7D48421568C2DA00B00ECC /* DVCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCard.h; sourceTree = "<group>"; };
 		FA7D48431568C2DA00B00ECC /* DVCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCard.m; sourceTree = "<group>"; };
 		FA96920C155F3FDE001A0085 /* DVCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategory.h; sourceTree = "<group>"; };
@@ -73,6 +86,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		98A8E49215756FE5003FCCBA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				98A8E49F157573BE003FCCBA /* Cards */,
+				98A8E499157573AA003FCCBA /* Category */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		98A8E499157573AA003FCCBA /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				98A8E49A157573AA003FCCBA /* DVCategoryListViewController.h */,
+				98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */,
+				98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		98A8E49F157573BE003FCCBA /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				98A8E4A015757433003FCCBA /* DVCardsViewController.h */,
+				98A8E4A115757433003FCCBA /* DVCardsViewController.m */,
+				98A8E4A215757433003FCCBA /* DVCardsViewController.xib */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		98A8E4A5157589CE003FCCBA /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		FA969210155F46C6001A0085 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +157,8 @@
 			children = (
 				FAB085D81564D2C800A4A419 /* DVUtilities.h */,
 				FAB085D91564D2C800A4A419 /* DVUtilities.m */,
+				98A8E4A6157589FA003FCCBA /* UIImage+Loader.h */,
+				98A8E4A7157589FA003FCCBA /* UIImage+Loader.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -145,6 +196,8 @@
 		FACBBE6E155E381600FF4CC5 /* SaveIt */ = {
 			isa = PBXGroup;
 			children = (
+				98A8E4A5157589CE003FCCBA /* Helper */,
+				98A8E49215756FE5003FCCBA /* Controllers */,
 				FAB085D61564D2BA00A4A419 /* Utilities */,
 				FACBBE85155E3ACF00FF4CC5 /* Model */,
 				FACBBE77155E381600FF4CC5 /* DVAppDelegate.h */,
@@ -234,6 +287,8 @@
 				FACBBE73155E381600FF4CC5 /* InfoPlist.strings in Resources */,
 				FACBBE7F155E381600FF4CC5 /* DVViewController.xib in Resources */,
 				FA969217155F8212001A0085 /* saveit.db in Resources */,
+				98A8E49E157573AA003FCCBA /* DVCategoryListViewController.xib in Resources */,
+				98A8E4A415757433003FCCBA /* DVCardsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +308,9 @@
 				FAB085DA1564D2C800A4A419 /* DVUtilities.m in Sources */,
 				FA7D48441568C2DA00B00ECC /* DVCard.m in Sources */,
 				983C68E6156AB6D3005F2194 /* DVCardManager.m in Sources */,
+				98A8E49D157573AA003FCCBA /* DVCategoryListViewController.m in Sources */,
+				98A8E4A315757433003FCCBA /* DVCardsViewController.m in Sources */,
+				98A8E4A8157589FA003FCCBA /* UIImage+Loader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
