@@ -13,6 +13,7 @@
 + (UIImage*)imageFromDocuments:(NSString*)fileName
 {
     NSString *documentsDirectory = [DVUtilities getDocumentsDirectory];
-    
+    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    return  [UIImage imageWithContentsOfFile:imagePath];
 }
 @end

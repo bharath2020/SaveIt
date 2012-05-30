@@ -31,6 +31,7 @@
 @property(strong,nonatomic) NSString *categoryName;
 @property(readonly, nonatomic) NSDate *lastModifiedDate;
 @property(strong, nonatomic) NSString *iconName;
+@property(strong, nonatomic, readonly) UIImage *icon;
 //category creation
 +(DVCategory*)newCategory;
 +(DVCategory*)newCategoryWithID:(NSUInteger)catID;
@@ -47,6 +48,8 @@
 -(NSUInteger)totalFieldNames;
 -(NSString*)fieldNameAtIndex:(NSUInteger)fieldIndex;
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex;
+
+
 
 //load the cards on completion the completedBlock will be invoked where you can get the cards loaded
 -(void)loadCards:(void (^)(BOOL finished))compltedBlock;

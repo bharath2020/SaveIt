@@ -10,6 +10,7 @@
 #import "DVCardManager.h"
 #import "DVCard.h"
 #import "DVHelper.h"
+#import "UIImage+Loader.h"
 
 //----------Constants
 #define CAT_FIELD_NAME_KEY @"fieldname"
@@ -20,6 +21,7 @@
 @synthesize categoryID;
 @dynamic lastModifiedDate;
 @synthesize iconName;
+@dynamic icon;
 
 
 //-----------------Init
@@ -60,6 +62,12 @@
 - (NSString *)iconName
 {
     return iconName ? iconName : @"";
+}
+
+- (UIImage*)icon
+{
+    UIImage *icon =   [UIImage imageFromDocuments:self.iconName];
+    return  icon!= nil ? icon : [UIImage imageNamed:@"no_cat_image.png"];
 }
 
 //-----------------Methods

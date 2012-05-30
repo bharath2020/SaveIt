@@ -8,11 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DVCategoryListViewController : UIViewController<UITableViewDataSource>
+#import "DTGridView.h"
+
+@interface DVCategoryListViewController : UIViewController<UITableViewDataSource,DTGridViewDataSource, DTGridViewDelegate>
 {
     IBOutlet UITableView *mCategoryListView;
+    DTGridView *mCategoryGridView;
+    IBOutlet UIToolbar *mEditToolBar;
+    IBOutlet UIBarItem *mSelectAllButton;
+    IBOutlet UIBarItem *mDeleteButton;
+    
+
+    
 }
 @property(nonatomic, strong)  UITableView *categoryListView;
+@property(nonatomic, strong) DTGridView *categoryGridView;
+@property(nonatomic, strong) UIToolbar *mEditToolBar;
+@property(nonatomic, strong) UIBarItem *mSelectAllButton;
+@property(nonatomic, strong) UIBarItem *mDeleteButton;
+
+-(IBAction)editCategory:(id)sender;
 
 
 @end

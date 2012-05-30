@@ -20,6 +20,11 @@
 		FA969217155F8212001A0085 /* saveit.db in Resources */ = {isa = PBXBuildFile; fileRef = FA969216155F8212001A0085 /* saveit.db */; };
 		FA96921C155F8453001A0085 /* DVHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FA96921B155F8453001A0085 /* DVHelper.m */; };
 		FA96921E155F959F001A0085 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FA96921D155F959F001A0085 /* libsqlite3.0.dylib */; };
+		FAA1AE4115769F71006CB1C2 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FAA1AE4015769F71006CB1C2 /* icons */; };
+		FAA1AE451576A245006CB1C2 /* no_cat_image.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA1AE441576A245006CB1C2 /* no_cat_image.png */; };
+		FAA1AE5E1576A504006CB1C2 /* DTGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1AE581576A504006CB1C2 /* DTGridView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAA1AE5F1576A504006CB1C2 /* DTGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1AE5A1576A504006CB1C2 /* DTGridViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAA1AE621576B27A006CB1C2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA1AE611576B27A006CB1C2 /* QuartzCore.framework */; };
 		FAB085DA1564D2C800A4A419 /* DVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB085D91564D2C800A4A419 /* DVUtilities.m */; };
 		FACBBE69155E381600FF4CC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACBBE68155E381600FF4CC5 /* UIKit.framework */; };
 		FACBBE6B155E381600FF4CC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FACBBE6A155E381600FF4CC5 /* Foundation.framework */; };
@@ -53,6 +58,14 @@
 		FA96921A155F8453001A0085 /* DVHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVHelper.h; sourceTree = "<group>"; };
 		FA96921B155F8453001A0085 /* DVHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVHelper.m; sourceTree = "<group>"; };
 		FA96921D155F959F001A0085 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		FAA1AE4015769F71006CB1C2 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icons; sourceTree = "<group>"; };
+		FAA1AE441576A245006CB1C2 /* no_cat_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_cat_image.png; sourceTree = "<group>"; };
+		FAA1AE571576A504006CB1C2 /* DTGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTGridView.h; sourceTree = "<group>"; };
+		FAA1AE581576A504006CB1C2 /* DTGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTGridView.m; sourceTree = "<group>"; };
+		FAA1AE591576A504006CB1C2 /* DTGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTGridViewCell.h; sourceTree = "<group>"; };
+		FAA1AE5A1576A504006CB1C2 /* DTGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DTGridViewCell.m; sourceTree = "<group>"; };
+		FAA1AE5B1576A504006CB1C2 /* DTGridViewCellInfoProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTGridViewCellInfoProtocol.h; sourceTree = "<group>"; };
+		FAA1AE611576B27A006CB1C2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FAB085D81564D2C800A4A419 /* DVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVUtilities.h; sourceTree = "<group>"; };
 		FAB085D91564D2C800A4A419 /* DVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVUtilities.m; sourceTree = "<group>"; };
 		FACBBE64155E381500FF4CC5 /* SaveIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAA1AE621576B27A006CB1C2 /* QuartzCore.framework in Frameworks */,
 				982D5393156AAD7000D643D3 /* libFMDB.a in Frameworks */,
 				FA96921E155F959F001A0085 /* libsqlite3.0.dylib in Frameworks */,
 				FACBBE69155E381600FF4CC5 /* UIKit.framework in Frameworks */,
@@ -138,6 +152,8 @@
 		FA969214155F8212001A0085 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FAA1AE431576A226006CB1C2 /* image */,
+				FAA1AE4015769F71006CB1C2 /* icons */,
 				FA969215155F8212001A0085 /* Database */,
 			);
 			name = Resources;
@@ -150,6 +166,34 @@
 				FA969216155F8212001A0085 /* saveit.db */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		FAA1AE431576A226006CB1C2 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				FAA1AE441576A245006CB1C2 /* no_cat_image.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		FAA1AE551576A504006CB1C2 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				FAA1AE561576A504006CB1C2 /* DTGridView */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		FAA1AE561576A504006CB1C2 /* DTGridView */ = {
+			isa = PBXGroup;
+			children = (
+				FAA1AE571576A504006CB1C2 /* DTGridView.h */,
+				FAA1AE581576A504006CB1C2 /* DTGridView.m */,
+				FAA1AE591576A504006CB1C2 /* DTGridViewCell.h */,
+				FAA1AE5A1576A504006CB1C2 /* DTGridViewCell.m */,
+				FAA1AE5B1576A504006CB1C2 /* DTGridViewCellInfoProtocol.h */,
+			);
+			path = DTGridView;
 			sourceTree = "<group>";
 		};
 		FAB085D61564D2BA00A4A419 /* Utilities */ = {
@@ -166,6 +210,7 @@
 		FACBBE59155E381500FF4CC5 = {
 			isa = PBXGroup;
 			children = (
+				FAA1AE611576B27A006CB1C2 /* QuartzCore.framework */,
 				982D5392156AAD7000D643D3 /* libFMDB.a */,
 				FA96921D155F959F001A0085 /* libsqlite3.0.dylib */,
 				FA969214155F8212001A0085 /* Resources */,
@@ -196,6 +241,7 @@
 		FACBBE6E155E381600FF4CC5 /* SaveIt */ = {
 			isa = PBXGroup;
 			children = (
+				FAA1AE551576A504006CB1C2 /* Custom Views */,
 				98A8E4A5157589CE003FCCBA /* Helper */,
 				98A8E49215756FE5003FCCBA /* Controllers */,
 				FAB085D61564D2BA00A4A419 /* Utilities */,
@@ -289,6 +335,8 @@
 				FA969217155F8212001A0085 /* saveit.db in Resources */,
 				98A8E49E157573AA003FCCBA /* DVCategoryListViewController.xib in Resources */,
 				98A8E4A415757433003FCCBA /* DVCardsViewController.xib in Resources */,
+				FAA1AE4115769F71006CB1C2 /* icons in Resources */,
+				FAA1AE451576A245006CB1C2 /* no_cat_image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +359,8 @@
 				98A8E49D157573AA003FCCBA /* DVCategoryListViewController.m in Sources */,
 				98A8E4A315757433003FCCBA /* DVCardsViewController.m in Sources */,
 				98A8E4A8157589FA003FCCBA /* UIImage+Loader.m in Sources */,
+				FAA1AE5E1576A504006CB1C2 /* DTGridView.m in Sources */,
+				FAA1AE5F1576A504006CB1C2 /* DTGridViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

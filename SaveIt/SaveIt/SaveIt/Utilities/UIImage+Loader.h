@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImage (Loader)
-
++ (UIImage*)imageFromDocuments:(NSString*)fileName;
 @end

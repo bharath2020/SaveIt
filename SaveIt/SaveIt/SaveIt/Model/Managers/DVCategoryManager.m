@@ -35,6 +35,7 @@ static DVCategoryManager *sSharedManager = nil;
     if( self )
     {
         mObjects = [[NSMutableArray alloc] init];
+        _selectedItems = [[NSMutableSet alloc] init];
         [self loadCategories:^(BOOL completed){
         }];
     }
@@ -142,6 +143,81 @@ static DVCategoryManager *sSharedManager = nil;
                 });
             }
         }
+    }];
+}
+
+//selection management
+- (void)deselectItemAtIndex:(NSUInteger)index
+{
+    DVCategory *category = [self categoryAtIndex:index];
+    if( category )
+    {
+        [_selectedItems removeObject:category];
+    }
+}
+
+- (void)toggleSelectionAtIndex:(NSUInteger)index
+{
+    if( [self isItemAtIndexSelected:index] )
+    {
+        [self deselectItemAtIndex:index];
+    }
+    else 
+    {
+        [self selectItemAtIndex:index];
+    }
+}
+
+- (void)selectItemAtIndex:(NSUInteger)index
+{
+    DVCategory *category = [self categoryAtIndex:index];
+    if( category )
+    {
+        [_selectedItems addObject:category];
+    }
+}
+
+- (BOOL)isItemAtIndexSelected:(NSUInteger)index
+{
+    DVCategory *category = [self categoryAtIndex:index];
+    return   [_selectedItems containsObject:category];
+}
+
+- (NSArray *)selectedItems
+{
+    return  [_selectedItems allObjects];
+}
+
+- (void)removeAllSelectedItems
+{
+    FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
+    [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
+        
+        NSMutableString *selectedItemIndex = [[NSMutableString alloc] initWithString:@""];
+
+        for( DVCategory *category in _selectedItems )
+        {
+            if( [category hasCategoryID] )
+            {
+                   [selectedItemIndex appendFormat:@"%u,", category.categoryID];
+            }
+            
+            //remove the last comma
+            if( [selectedItemIndex length]>1)
+            {
+                selectedItemIndex = [[selectedItemIndex substringWithRange:NSMakeRange(0, [selectedItemIndex length]-1)] mutableCopy];
+            }
+        }
+        
+        
+            BOOL status = [db executeUpdate:[NSString stringWithFormat:@"DELETE FROM CATEGORY WHERE %@ IN ( %@ )", CATEGORY_ID, selectedItemIndex]];
+            if( status )
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [mObjects removeObjectsInArray:[_selectedItems allObjects]];
+                    [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
+                });
+            }
     }];
 }
 
