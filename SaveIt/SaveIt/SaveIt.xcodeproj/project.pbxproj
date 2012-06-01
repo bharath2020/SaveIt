@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		982D5393156AAD7000D643D3 /* libFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 982D5392156AAD7000D643D3 /* libFMDB.a */; };
 		983C68E6156AB6D3005F2194 /* DVCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 983C68E5156AB6D3005F2194 /* DVCardManager.m */; };
+		985952A51579302D007FB0BD /* Lock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 985952A41579302D007FB0BD /* Lock_icon.png */; };
+		985952A815794615007FB0BD /* DVInputTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 985952A715794615007FB0BD /* DVInputTextFieldCell.xib */; };
+		985952AA15795936007FB0BD /* unlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 985952A915795936007FB0BD /* unlock.png */; };
 		98A8E49D157573AA003FCCBA /* DVCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */; };
 		98A8E49E157573AA003FCCBA /* DVCategoryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */; };
 		98A8E4A315757433003FCCBA /* DVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E4A115757433003FCCBA /* DVCardsViewController.m */; };
@@ -43,6 +46,9 @@
 		982D5392156AAD7000D643D3 /* libFMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMDB.a; path = "../ccgus-fmdb-46614e2/build/Release-iphoneos/libFMDB.a"; sourceTree = "<group>"; };
 		983C68E4156AB6D3005F2194 /* DVCardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCardManager.h; sourceTree = "<group>"; };
 		983C68E5156AB6D3005F2194 /* DVCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCardManager.m; sourceTree = "<group>"; };
+		985952A41579302D007FB0BD /* Lock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lock_icon.png; sourceTree = "<group>"; };
+		985952A715794615007FB0BD /* DVInputTextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVInputTextFieldCell.xib; sourceTree = "<group>"; };
+		985952A915795936007FB0BD /* unlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlock.png; sourceTree = "<group>"; };
 		98A8E49A157573AA003FCCBA /* DVCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategoryListViewController.h; sourceTree = "<group>"; };
 		98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCategoryListViewController.m; sourceTree = "<group>"; };
 		98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCategoryListViewController.xib; sourceTree = "<group>"; };
@@ -54,7 +60,7 @@
 		98FB4C43157820AB0030A68E /* DVCategoryCreationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategoryCreationController.h; sourceTree = "<group>"; };
 		98FB4C44157820AB0030A68E /* DVCategoryCreationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCategoryCreationController.m; sourceTree = "<group>"; };
 		98FB4C45157820AB0030A68E /* DVCategoryCreationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCategoryCreationController.xib; sourceTree = "<group>"; };
-		98FB4C481578222C0030A68E /* DVInputTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DVInputTextFieldCell.h; sourceTree = "<group>"; };
+		98FB4C481578222C0030A68E /* DVInputTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVInputTextFieldCell.h; sourceTree = "<group>"; };
 		98FB4C491578222C0030A68E /* DVInputTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVInputTextFieldCell.m; sourceTree = "<group>"; };
 		FA7D48421568C2DA00B00ECC /* DVCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCard.h; sourceTree = "<group>"; };
 		FA7D48431568C2DA00B00ECC /* DVCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCard.m; sourceTree = "<group>"; };
@@ -153,6 +159,7 @@
 				98FB4C45157820AB0030A68E /* DVCategoryCreationController.xib */,
 				98FB4C481578222C0030A68E /* DVInputTextFieldCell.h */,
 				98FB4C491578222C0030A68E /* DVInputTextFieldCell.m */,
+				985952A715794615007FB0BD /* DVInputTextFieldCell.xib */,
 			);
 			path = CategoyCreation;
 			sourceTree = "<group>";
@@ -192,6 +199,8 @@
 		FAA1AE431576A226006CB1C2 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				985952A915795936007FB0BD /* unlock.png */,
+				985952A41579302D007FB0BD /* Lock_icon.png */,
 				FAA1AE441576A245006CB1C2 /* no_cat_image.png */,
 			);
 			path = image;
@@ -359,6 +368,9 @@
 				FAA1AE4115769F71006CB1C2 /* icons in Resources */,
 				FAA1AE451576A245006CB1C2 /* no_cat_image.png in Resources */,
 				98FB4C47157820AB0030A68E /* DVCategoryCreationController.xib in Resources */,
+				985952A51579302D007FB0BD /* Lock_icon.png in Resources */,
+				985952A815794615007FB0BD /* DVInputTextFieldCell.xib in Resources */,
+				985952AA15795936007FB0BD /* unlock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

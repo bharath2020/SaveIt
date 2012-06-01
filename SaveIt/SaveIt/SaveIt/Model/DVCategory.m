@@ -16,6 +16,12 @@
 #define CAT_FIELD_NAME_KEY @"fieldname"
 #define CAT_FIELD_SCRAMBLE_KEY @"isscramble"
 
+NSString *DVCategoryUpdatedNotification = @"category_update";
+
+@interface DVCategory()
+- (void)categoryUpdated;
+@end
+
 @implementation DVCategory
 @synthesize categoryName;
 @synthesize categoryID;
@@ -87,9 +93,32 @@
     NSString *fieldName = @"";
     if (fieldIndex < [mFieldNames count] )
     {
+        fieldName = [NSString stringWithFormat:@"Field %d",fieldIndex+1];
+    }
+    return  fieldName;
+}
+
+-(NSString*)fieldValueAtIndex:(NSUInteger)fieldIndex
+{
+    NSString *fieldName = @"";
+    if (fieldIndex < [mFieldNames count] )
+    {
         fieldName = [[mFieldNames objectAtIndex:fieldIndex] valueForKey:CAT_FIELD_NAME_KEY];
     }
     return  fieldName;
+}
+
+-(void)addFieldValue:(NSString*)fieldValue
+{
+    [mFieldNames addObject:fieldValue];    
+}
+
+-(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex
+{
+    if( fieldIndex < [mFieldNames count] )
+    {
+        [mFieldNames removeObjectAtIndex:fieldIndex];   
+    }
 }
 
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex
@@ -101,6 +130,8 @@
     }
     return  isScrambled;
 }
+
+
 
 -(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble
 {
@@ -148,5 +179,10 @@
     [mCardManager loadCards:compltedBlock];
 }
 
+#pragma Category Update
+- (void)categoryUpdated
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:DVCategoryUpdatedNotification object:nil];
+}
 
 @end

@@ -17,6 +17,8 @@
 #define CATEGORY_FIELD_SCRAMBLE  @"category_field_scramble"
 #define CATEGORY_FIELD_ICON_NAME @"category_icon_name"
 
+extern NSString *DVCategoryUpdatedNotification;
+
 @interface DVCategory : NSObject
 {
     NSUInteger mCategoryID;
@@ -48,7 +50,9 @@
 -(NSUInteger)totalFieldNames;
 -(NSString*)fieldNameAtIndex:(NSUInteger)fieldIndex;
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex;
-
+-(NSString*)fieldValueAtIndex:(NSUInteger)fieldIndex;
+-(void)addFieldValue:(NSString*)fieldValue;
+-(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex;
 
 
 //load the cards on completion the completedBlock will be invoked where you can get the cards loaded

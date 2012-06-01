@@ -10,6 +10,7 @@
 #import "DVCategoryManager.h"
 #import "DVCategory.h"
 #import "DTGridViewCell.h"
+#import "DVCategoryCreationController.h"
 
 #define TOTAL_COLUMNS 4
 
@@ -206,14 +207,20 @@
 
 - (void)gridView:(DTGridView *)gridView selectionMadeAtRow:(NSInteger)rowIndex column:(NSInteger)columnIndex
 {
+    NSUInteger index = (rowIndex * TOTAL_COLUMNS) + columnIndex;
     if( self.editing)
     {
-        NSUInteger index = (rowIndex * TOTAL_COLUMNS) + columnIndex;
         [[DVCategoryManager sharedInstance] toggleSelectionAtIndex:index];
         
         DTGridViewCell *cell =    [gridView cellForRow:rowIndex column:columnIndex];
         cell.tick = [[DVCategoryManager sharedInstance] isItemAtIndexSelected:index];
         [self updateEditToolbar];
+    }
+    else {
+        //show category creation
+        DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:nil];
+        [self.navigationController pushViewController:categoryCreator animated:YES];
+        [categoryCreator showDetailsOfCategory:[_sharedCategoryManager categoryAtIndex:index]];
     }
 }
 
