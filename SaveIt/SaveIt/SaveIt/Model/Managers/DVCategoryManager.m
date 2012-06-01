@@ -14,7 +14,7 @@
 
 
 NSString * DVCategoriesUpdateNotification = @"categories_update";
-
+NSString * DVCategoriesSelectionUpdatedNotification = @"categories_selection_update";
 
 static DVCategoryManager *sSharedManager = nil;
 @implementation DVCategoryManager
@@ -61,6 +61,29 @@ static DVCategoryManager *sSharedManager = nil;
 {
     @try {
         [[NSNotificationCenter defaultCenter] removeObserver:target name:DVCategoriesUpdateNotification object:self];
+    }
+    @catch (NSException *exception) {
+        
+    }
+}
+
+-(void)registerForSelectionUpdates:(SEL)selector target:(id)target
+{
+    @try
+    {
+        [self unregisterFromSelectionUpdates:target];
+        [[NSNotificationCenter defaultCenter] addObserver:target selector:selector name:DVCategoriesSelectionUpdatedNotification object:self];
+    }
+    @catch(NSException *e)
+    {
+        
+    }
+}
+
+-(void)unregisterFromSelectionUpdates:(id)target
+{
+    @try {
+        [[NSNotificationCenter defaultCenter] removeObserver:target name:DVCategoriesSelectionUpdatedNotification object:self];
     }
     @catch (NSException *exception) {
         
@@ -153,6 +176,7 @@ static DVCategoryManager *sSharedManager = nil;
     if( category )
     {
         [_selectedItems removeObject:category];
+        [[NSNotificationCenter defaultCenter] postNotificationName:DVCategoriesSelectionUpdatedNotification object:self];
     }
 }
 
@@ -174,6 +198,7 @@ static DVCategoryManager *sSharedManager = nil;
     if( category )
     {
         [_selectedItems addObject:category];
+        [[NSNotificationCenter defaultCenter] postNotificationName:DVCategoriesSelectionUpdatedNotification object:self];
     }
 }
 
@@ -219,6 +244,13 @@ static DVCategoryManager *sSharedManager = nil;
                 });
             }
     }];
+}
+
+- (void)selectAll
+{
+    [_selectedItems removeAllObjects];
+    [_selectedItems addObjectsFromArray:mObjects];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DVCategoriesSelectionUpdatedNotification object:self];
 }
 
 @end

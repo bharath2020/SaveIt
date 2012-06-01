@@ -11,6 +11,7 @@
 #import "DVViewController.h"
 #import "DVCardsViewcontroller.h"
 #import "DVCategoryListViewController.h"
+#import "DVUtilities.h"
 
 @implementation DVAppDelegate
 
@@ -20,6 +21,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //move the icons directory
+    [DVUtilities moveIconsDirectory];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     //create a tab bar

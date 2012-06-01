@@ -11,6 +11,7 @@
 @class  DVCategory;
 
 extern NSString * DVCategoriesUpdateNotification;
+extern NSString * DVCategoriesSelectionUpdatedNotification;
 
 @interface DVCategoryManager : NSObject
 {
@@ -22,8 +23,10 @@ extern NSString * DVCategoriesUpdateNotification;
 
 +(DVCategoryManager*)sharedInstance;
 
--(void)registerForUpdates:(SEL)selector target:(id)self;
+-(void)registerForUpdates:(SEL)selector target:(id)target;
 -(void)unregisterFromUpdates:(id)target;
+-(void)registerForSelectionUpdates:(SEL)selector target:(id)target;
+-(void)unregisterFromSelectionUpdates:(id)target;
 
 -(NSUInteger)totalCategories;
 -(DVCategory *)categoryAtIndex:(NSUInteger)index;
@@ -39,5 +42,6 @@ extern NSString * DVCategoriesUpdateNotification;
 - (void)removeAllSelectedItems;
 - (void)toggleSelectionAtIndex:(NSUInteger)index;
 - (void)deselectItemAtIndex:(NSUInteger)index;
+- (void)selectAll;
 
 @end

@@ -19,4 +19,25 @@
 	}
 	return documentsDirectory;
 }
+
++(void)moveIconsDirectory
+{
+    NSString *iconsDirectory = [self getIconsDirectory];
+    BOOL isDir = NO;
+    if( ![[NSFileManager defaultManager] fileExistsAtPath:iconsDirectory isDirectory:&isDir]  || !isDir)
+    {
+        NSString *iconBundlePath = [[NSBundle mainBundle] pathForResource:@"icons" ofType:@""];
+        [[NSFileManager defaultManager] moveItemAtPath:iconBundlePath toPath:iconsDirectory error:nil];
+    }
+}
+
+#define ICONS_DIR_NAME @"icons"
+
++(NSString *)getIconsDirectory
+{
+    NSString *documentsDir = [self getDocumentsDirectory];
+    NSString *iconsDir = [documentsDir stringByAppendingPathComponent:ICONS_DIR_NAME];
+    return iconsDir;
+}
+
 @end

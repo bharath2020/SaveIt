@@ -10,4 +10,6 @@
 
 @interface DVUtilities : NSObject
 +(NSString *)getDocumentsDirectory;
++(void)moveIconsDirectory;
++(NSString *)getIconsDirectory;
 @end

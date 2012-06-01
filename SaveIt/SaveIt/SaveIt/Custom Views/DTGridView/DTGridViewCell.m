@@ -32,7 +32,7 @@
 	
 	identifier = [anIdentifier copy];
     imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    imageView.contentMode = UIViewContentModeCenter;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:imageView];
     
     mTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -89,7 +89,6 @@
 
 -(void)setTick:(BOOL)inTick
 {
-    NSLog(@"%d", inTick);
     self.backgroundColor = (inTick ? [UIColor greenColor] : [ UIColor clearColor]);
 }
 

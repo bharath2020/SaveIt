@@ -14,6 +14,10 @@
 #define TOTAL_COLUMNS 4
 
 @interface DVCategoryListViewController ()
+{
+    DVCategoryManager *_sharedCategoryManager;
+
+}
 - (void)initialise;
 - (void)updateEditToolbar;
 @end
@@ -29,8 +33,9 @@
 - (void)initialise
 {
     self.title = @"Category";
-
     [[DVCategoryManager sharedInstance] registerForUpdates:@selector(categoryListUpdated:) target:self];
+    _sharedCategoryManager = [DVCategoryManager sharedInstance];
+    [_sharedCategoryManager registerForSelectionUpdates:@selector(categorySelectionUpdate:) target:self];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -58,10 +63,11 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editCategory:)];
-    self.navigationItem.rightBarButtonItem = editButton;
+    mEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editCategory:)];
+    self.navigationItem.rightBarButtonItem = mEditButton;
     
-
+    mDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(editCategory:)];
+    
     
     // Do any additional setup after loading the view from its nib.
     self.title = @"Category";
@@ -81,6 +87,8 @@
 {
     [super viewDidUnload];
     self.categoryGridView = nil;
+    mEditButton=nil;
+    mDoneButton=nil;
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -100,11 +108,29 @@
     [[DVCategoryManager sharedInstance] removeAllSelectedItems];
 }
 
+- (IBAction)selectAll:(id)sender
+{
+    [[DVCategoryManager sharedInstance] selectAll];
+    [mCategoryGridView reloadData];
+}
+
+-(IBAction)deletSelected:(id)sender
+{
+    [[DVCategoryManager sharedInstance] removeAllSelectedItems];
+}
+
 #pragma Category List Updated
 - (void)categoryListUpdated:(NSNotification*)notif
 {
     [self.categoryListView reloadData];
     [mCategoryGridView reloadData];
+}
+
+- (void)categorySelectionUpdate:(NSNotification*)notif
+{
+//    [mCategoryGridView reloadData];
+//    NSLog(@"selection");
+    [self updateEditToolbar];
 }
 
 #pragma UITableView Data Source
@@ -175,16 +201,29 @@
     cell.titleLabel.text = category.categoryName;
     cell.imageView.image = [category icon];
     cell.tick = [[DVCategoryManager sharedInstance] isItemAtIndexSelected:index];
-    
-
 	return cell;
+}
+
+- (void)gridView:(DTGridView *)gridView selectionMadeAtRow:(NSInteger)rowIndex column:(NSInteger)columnIndex
+{
+    if( self.editing)
+    {
+        NSUInteger index = (rowIndex * TOTAL_COLUMNS) + columnIndex;
+        [[DVCategoryManager sharedInstance] toggleSelectionAtIndex:index];
+        
+        DTGridViewCell *cell =    [gridView cellForRow:rowIndex column:columnIndex];
+        cell.tick = [[DVCategoryManager sharedInstance] isItemAtIndexSelected:index];
+        [self updateEditToolbar];
+    }
 }
 
 #pragma mark Editing
 
 - (void)updateEditToolbar
 {
-    
+    NSUInteger selectedItemsCount = [[_sharedCategoryManager selectedItems] count];
+    mSelectAllButton.enabled = [_sharedCategoryManager totalCategories] != selectedItemsCount;
+    mDeleteButton.enabled = selectedItemsCount >0;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
@@ -192,6 +231,8 @@
     [super setEditing:editing animated:animated];
     if( editing )
     {
+        self.navigationItem.rightBarButtonItem = mDoneButton;
+
         [UIView animateWithDuration:(animated ? 0.25 : 0.0f) animations:^{
             CGRect editToolBar = mEditToolBar.frame;
             editToolBar.origin.y = self.view.bounds.size.height - editToolBar.size.height;
@@ -201,6 +242,8 @@
                         }];
     }
     else {
+        self.navigationItem.rightBarButtonItem = mEditButton;
+
         [UIView animateWithDuration:(animated ? 0.25 : 0.0f) animations:^{
             CGRect editToolBar = mEditToolBar.frame;
             editToolBar.origin.y = self.view.bounds.size.height;
@@ -212,14 +255,7 @@
     [self updateEditToolbar];
 }
 
-- (void)gridView:(DTGridView *)gridView selectionMadeAtRow:(NSInteger)rowIndex column:(NSInteger)columnIndex
-{
-    NSUInteger index = (rowIndex * TOTAL_COLUMNS) + columnIndex;
-    [[DVCategoryManager sharedInstance] toggleSelectionAtIndex:index];
 
-    DTGridViewCell *cell =    [gridView cellForRow:rowIndex column:columnIndex];
-    cell.tick = [[DVCategoryManager sharedInstance] isItemAtIndexSelected:index];
-}
 
 
 @end

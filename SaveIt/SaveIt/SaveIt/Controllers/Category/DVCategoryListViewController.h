@@ -17,6 +17,8 @@
     IBOutlet UIToolbar *mEditToolBar;
     IBOutlet UIBarItem *mSelectAllButton;
     IBOutlet UIBarItem *mDeleteButton;
+    UIBarButtonItem *mEditButton;
+    UIBarButtonItem *mDoneButton;
     
 
     
@@ -28,6 +30,7 @@
 @property(nonatomic, strong) UIBarItem *mDeleteButton;
 
 -(IBAction)editCategory:(id)sender;
-
+-(IBAction)selectAll:(id)sender;
+-(IBAction)deletSelected:(id)sender;
 
 @end

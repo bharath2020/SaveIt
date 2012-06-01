@@ -12,8 +12,8 @@
 @implementation UIImage (Loader)
 + (UIImage*)imageFromDocuments:(NSString*)fileName
 {
-    NSString *documentsDirectory = [DVUtilities getDocumentsDirectory];
-    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:fileName];
+    NSString *iconsDirectory = [DVUtilities getIconsDirectory];
+    NSString *imagePath = [iconsDirectory stringByAppendingPathComponent:fileName];
     return  [UIImage imageWithContentsOfFile:imagePath];
 }
 @end
