@@ -23,7 +23,6 @@
 
     
 }
-@property(nonatomic, strong)  UITableView *categoryListView;
 @property(nonatomic, strong) DTGridView *categoryGridView;
 @property(nonatomic, strong) UIToolbar *mEditToolBar;
 @property(nonatomic, strong) UIBarItem *mSelectAllButton;

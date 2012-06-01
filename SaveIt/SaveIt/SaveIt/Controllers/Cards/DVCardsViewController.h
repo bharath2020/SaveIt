@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DVCardsViewController : UIViewController
+{
+}
 
 @end

@@ -19,11 +19,12 @@
 @end
 
 @implementation DVCategoryCreationController
-@synthesize category = mCategory;
 @synthesize mCategoryDescriptionField;
 @synthesize mTitleLabel;
 @synthesize mIconImageView;
-@synthesize mCategoryFieldView;
+@synthesize mCategoryListView;
+@synthesize category = mCategory;
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,6 +40,11 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    mEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editCategory:)];
+    self.navigationItem.rightBarButtonItem = mEditButton;
+    
+    mDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(editCategory:)];
+    
 }
 
 - (void)viewDidUnload
@@ -46,10 +52,10 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.mCategoryFieldView = nil;
-    self.mCategoryDescriptionField=nil;
-    self.mTitleLabel = nil;
-    self.mIconImageView = nil;
+    //self.mTableView = nil;
+   // self.mCategoryDescriptionField=nil;
+   // self.mTitleLabel = nil;
+   // self.mIconImageView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -72,6 +78,18 @@
     
 }
 
+- (void)editCategory:(id)sender
+{
+    [self setEditing:mCategoryListView.isEditing animated:YES];
+}
+
+#pragma Table Editing
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [mCategoryListView setEditing:editing animated:animated];
+    [mCategoryListView reloadData];
+}
+
 #pragma UITableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -85,7 +103,15 @@
 {
     if( tableView.editing && indexPath.row == [mCategory totalFieldNames])
     {
+        static NSString *addCellID = @"add_cell";
+        UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:addCellID];
+        if (! addCell )
+        {
+            addCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:addCellID];
         
+        }
+        addCell.textLabel.text =@"Add New Field";
+        return  addCell;
     }
     
     static NSString *categoryCellID = @"category_detail";
@@ -106,6 +132,18 @@
     return categoryCell;
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( tableView.isEditing )
+    {
+        if( indexPath.row == [mCategory totalFieldNames] )
+        {
+            return UITableViewCellEditingStyleInsert;
+        }
+        return  UITableViewCellEditingStyleDelete;
+    }
+    return  UITableViewCellEditingStyleNone;
+}
 
 
 

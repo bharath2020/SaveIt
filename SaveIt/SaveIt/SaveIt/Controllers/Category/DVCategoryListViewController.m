@@ -24,7 +24,6 @@
 @end
 
 @implementation DVCategoryListViewController
-@synthesize categoryListView = mCategoryListView;
 @synthesize categoryGridView = mCategoryGridView;
 @synthesize mEditToolBar;
 @synthesize mSelectAllButton;
@@ -123,7 +122,7 @@
 #pragma Category List Updated
 - (void)categoryListUpdated:(NSNotification*)notif
 {
-    [self.categoryListView reloadData];
+    [mCategoryListView reloadData];
     [mCategoryGridView reloadData];
 }
 
@@ -218,7 +217,7 @@
     }
     else {
         //show category creation
-        DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:nil];
+        DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:[NSBundle mainBundle]];
         [self.navigationController pushViewController:categoryCreator animated:YES];
         [categoryCreator showDetailsOfCategory:[_sharedCategoryManager categoryAtIndex:index]];
     }
