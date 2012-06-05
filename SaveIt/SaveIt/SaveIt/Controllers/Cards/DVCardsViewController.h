@@ -10,6 +10,8 @@
 
 @interface DVCardsViewController : UIViewController
 {
+    IBOutlet UITableView *mTest;
 }
+
 
 @end

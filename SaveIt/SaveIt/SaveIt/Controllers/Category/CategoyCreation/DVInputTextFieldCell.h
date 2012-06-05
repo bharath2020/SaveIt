@@ -8,15 +8,35 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DVInputTextFieldCell : UITableViewCell
+typedef enum _InputCellType
+{
+    eEditableTextField=0,
+    eNormalTextField
+}EInputCellType;
+
+@class DVInputTextFieldCell;
+@protocol DVInputTextFieldCellDelegate <NSObject>
+
+-(void)textFieldCellDidBeginEditing:(DVInputTextFieldCell*)cell;
+
+@end
+
+@interface DVInputTextFieldCell : UITableViewCell<UITextFieldDelegate>
 {
     IBOutlet UILabel *mTitleLabel;
     IBOutlet UITextField *mValueField;
     IBOutlet UIImageView *mImageView;
+    IBOutlet UILabel *mValueFieldLabel;
+    __unsafe_unretained id<DVInputTextFieldCellDelegate> _cellDelegate;
+    EInputCellType _cellType;
 }
 @property( nonatomic, strong) UIImageView *mImageView;
 @property( nonatomic, strong) UITextField *mValueField;
 @property( nonatomic, strong) UILabel     *mTitleLabel;
+@property( nonatomic, strong) UILabel     *mValueFieldLabel;
+@property( nonatomic, unsafe_unretained) id<DVInputTextFieldCellDelegate> cellDelegate;
 
+- (void)setCellType:(EInputCellType)inputCellType;
+- (void)setTitle:(NSString*)title;
 
 @end

@@ -30,6 +30,7 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
     return self;
 }
 
+
 //-----------------------methods
 -(void)registerForUpdates:(SEL)selector target:(id)observer
 {

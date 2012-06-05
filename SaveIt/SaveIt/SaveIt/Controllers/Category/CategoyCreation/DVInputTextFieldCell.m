@@ -16,6 +16,8 @@
 @synthesize mImageView;
 @synthesize mValueField;
 @synthesize mTitleLabel;
+@synthesize mValueFieldLabel;
+@synthesize cellDelegate=_cellDelegate;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -38,6 +40,11 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+    [mValueField setDelegate:self];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
@@ -47,7 +54,38 @@
 
 - (void)initialise
 {
-    
+
+}
+
+- (void)setCellType:(EInputCellType)inputCellType
+{
+    _cellType = inputCellType;
+    if( inputCellType == eEditableTextField )
+    {
+        mValueField.hidden = NO;
+        mValueFieldLabel.hidden = YES;
+    }
+    else {
+        mValueFieldLabel.hidden = NO;
+        mValueField.hidden = YES;
+    }
+}
+
+#pragma UITextFieldCell Delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [_cellDelegate textFieldCellDidBeginEditing:self];
+}
+
+- (void)setTitle:(NSString*)title
+{
+    if( _cellType != eEditableTextField )
+    {
+        mValueFieldLabel.text = title;
+    }
+    else {
+        mValueField.text = title;
+    }
 }
 
 @end

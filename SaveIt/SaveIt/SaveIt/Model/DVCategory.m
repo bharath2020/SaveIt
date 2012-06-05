@@ -44,6 +44,12 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
     return self;
 }
 
+
+//- (id)copyWithZone:(NSZone *)zone
+//{
+//    
+//}
+
 - (void)dealloc
 {
     NSUInteger totalCards = [mCardManager totalCards];

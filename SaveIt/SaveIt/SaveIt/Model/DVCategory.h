@@ -19,7 +19,7 @@
 
 extern NSString *DVCategoryUpdatedNotification;
 
-@interface DVCategory : NSObject
+@interface DVCategory : NSObject<NSCopying>
 {
     NSUInteger mCategoryID;
     NSString * mCategeoryName;
@@ -37,7 +37,6 @@ extern NSString *DVCategoryUpdatedNotification;
 //category creation
 +(DVCategory*)newCategory;
 +(DVCategory*)newCategoryWithID:(NSUInteger)catID;
-
 
 -(BOOL)hasCategoryID;
 
