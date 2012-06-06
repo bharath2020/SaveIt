@@ -24,7 +24,7 @@ extern NSString *DVCategoryUpdatedNotification;
     NSUInteger mCategoryID;
     NSString * mCategeoryName;
     NSMutableArray *mFieldNames;
-    NSTimeInterval *mLastModified;
+    NSTimeInterval mLastModified;
     NSString *mIconName;
     DVCardManager *mCardManager;
 }
@@ -34,9 +34,11 @@ extern NSString *DVCategoryUpdatedNotification;
 @property(readonly, nonatomic) NSDate *lastModifiedDate;
 @property(strong, nonatomic) NSString *iconName;
 @property(strong, nonatomic, readonly) UIImage *icon;
+@property(nonatomic, assign) NSTimeInterval lasteModifiedInterval;
 //category creation
 +(DVCategory*)newCategory;
 +(DVCategory*)newCategoryWithID:(NSUInteger)catID;
+-(void)copyFromCategory:(DVCategory*)otherCategory;
 
 -(BOOL)hasCategoryID;
 

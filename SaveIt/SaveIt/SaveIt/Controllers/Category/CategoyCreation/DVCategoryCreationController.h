@@ -10,6 +10,14 @@
 #import "DVCategory.h"
 #import "DVInputTextFieldCell.h"
 
+@class DVCategoryCreationController;
+
+@protocol DVCategoryCreationProtocol <NSObject>
+
+-(void)categoryCreation:(DVCategoryCreationController*)controller didEditCategory:(DVCategory*)newCategory;
+
+@end
+
 @interface DVCategoryCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate, DVInputTextFieldCellDelegate>
 {
     IBOutlet UITableView *mCategoryListView;
@@ -21,6 +29,8 @@
     UIBarButtonItem *mEditButton;
     UIBarButtonItem *mDoneButton;
     UIBarButtonItem *mCancelButton;
+    
+    __unsafe_unretained id _creatorDelegate;
 }
 @property(nonatomic, strong)UILabel *mCategoryDescriptionField;
 @property(nonatomic, strong)UILabel *mTitleLabel;
@@ -28,6 +38,7 @@
 @property(nonatomic, strong)UITableView *mCategoryListView;
 @property(nonatomic, strong)UIView *mEditableHeaderView;
 @property(nonatomic, strong)UIView *mNormalHeaderView;
+@property(nonatomic, unsafe_unretained)id creatorDelegate;
 
 
 -(void)showDetailsOfCategory:(DVCategory*)category;

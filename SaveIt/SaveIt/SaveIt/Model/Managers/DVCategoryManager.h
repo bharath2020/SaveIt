@@ -34,6 +34,7 @@ extern NSString * DVCategoriesSelectionUpdatedNotification;
 
 -(void)addCategory:(DVCategory*)newCategory;
 -(void)removeCategory:(DVCategory*)category;
+-(void)saveCategory:(DVCategory*)category;
 
 //selection management
 - (void)selectItemAtIndex:(NSUInteger)index;

@@ -26,6 +26,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 @synthesize categoryName;
 @synthesize categoryID;
 @dynamic lastModifiedDate;
+@synthesize lasteModifiedInterval=mLastModified;
 @synthesize iconName;
 @dynamic icon;
 
@@ -45,10 +46,31 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 }
 
 
-//- (id)copyWithZone:(NSZone *)zone
-//{
-//    
-//}
+- (id)copyWithZone:(NSZone *)zone
+{
+    DVCategory *newCategory = [[DVCategory alloc] init];
+    newCategory.categoryID = self.categoryID;
+    newCategory.iconName = self.iconName;
+    newCategory.lasteModifiedInterval = self.lasteModifiedInterval;
+    if( self->mFieldNames )
+    {
+        [newCategory->mFieldNames  addObjectsFromArray:self->mFieldNames];
+    }
+    return  newCategory;    
+}
+
+-(void)copyFromCategory:(DVCategory*)otherCategory
+{
+    self.categoryID = otherCategory.categoryID;
+    self.iconName = otherCategory.iconName;
+    self.lasteModifiedInterval = otherCategory.lasteModifiedInterval;
+    if( self->mFieldNames )
+    {
+        [self->mFieldNames removeAllObjects];
+        [self->mFieldNames  addObjectsFromArray:otherCategory->mFieldNames];
+    }
+
+}
 
 - (void)dealloc
 {
@@ -116,7 +138,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 
 -(void)addFieldValue:(NSString*)fieldValue
 {
-    [mFieldNames addObject:fieldValue];    
+    [mFieldNames addObject:[NSDictionary dictionaryWithObjectsAndKeys:fieldValue, CAT_FIELD_NAME_KEY, [NSNumber numberWithBool:NO], CAT_FIELD_SCRAMBLE_KEY, nil]];    
 }
 
 -(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex

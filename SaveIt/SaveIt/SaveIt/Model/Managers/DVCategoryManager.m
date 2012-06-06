@@ -150,6 +150,30 @@ static DVCategoryManager *sSharedManager = nil;
     }];
 }
 
+-(void)saveCategory:(DVCategory*)category
+{
+    if( [category hasCategoryID] )
+    {
+        FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
+        [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
+            
+            NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO CATEGORY(%@, %@, %@, %@, %@) VALUES(%d, '%@', '%@', '%@', '%@' )", CATEGORY_ID, CATEGORY_NAME, CATEGORY_FIELD_NAMES,CATEGORY_FIELD_SCRAMBLE, CATEGORY_FIELD_ICON_NAME , category.categoryID, category.categoryName, [category fieldValueString], [category scrambleString], category.iconName ];
+            NSLog(@"%@", query);
+            BOOL status = [db executeUpdate:query];
+            if( status )
+            {
+                category.categoryID = [db lastInsertRowId];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
+            });
+        }];
+    }
+    else {
+        [self addCategory:category];
+    }
+}
+
 -(void)removeCategory:(DVCategory*)category
 {
     FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];

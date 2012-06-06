@@ -16,6 +16,7 @@
     DVCategory *mEditableCategory;
 }
 @property(nonatomic,strong) DVCategory *category;
+@property(nonatomic, strong)DVCategory *editableCategory;
 - (void)updateDisplay;
 @end
 
@@ -25,8 +26,10 @@
 @synthesize mIconImageView;
 @synthesize mCategoryListView;
 @synthesize category = mCategory;
+@synthesize editableCategory = mEditableCategory;
 @synthesize mEditableHeaderView;
 @synthesize mNormalHeaderView;
+@synthesize creatorDelegate = _creatorDelegate;
 
 
 
@@ -102,6 +105,13 @@
 - (void)editCategory:(id)sender
 {
     [self setEditing:!mCategoryListView.isEditing animated:YES];
+    
+    if( sender == mDoneButton )
+    {
+        [self.creatorDelegate categoryCreation:self didEditCategory:mEditableCategory];
+        [self.category copyFromCategory:mEditableCategory];
+        [mCategoryListView reloadData];
+    }
 }
 
 - (void)cancelEditing:(id)sender
@@ -112,6 +122,13 @@
 #pragma Table Editing
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
+    
+    if( editing )
+    {
+        self.editableCategory = [mCategory copy];    
+    }
+   
+    
     [mCategoryListView setEditing:editing animated:animated];
     mCategoryListView.tableHeaderView = editing ? mEditableHeaderView : mNormalHeaderView;
     [mCategoryListView reloadData];
@@ -123,7 +140,8 @@
 #pragma UITableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return  [mCategory totalFieldNames] + (tableView.isEditing ? 1 : 0);
+    DVCategory *category = tableView.editing ? mEditableCategory : mCategory;
+    return  [category totalFieldNames] + (tableView.isEditing ? 1 : 0);
 }
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
@@ -131,7 +149,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( tableView.editing && indexPath.row == [mCategory totalFieldNames])
+    DVCategory *category = tableView.editing ? mEditableCategory : mCategory;
+    if( tableView.editing && indexPath.row == [category totalFieldNames])
     {
         static NSString *addCellID = @"add_cell";
         UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:addCellID];
@@ -171,9 +190,9 @@
         [categoryCell setCellType:eNormalTextField];
     }
     
-    categoryCell.mTitleLabel.text = [mCategory fieldNameAtIndex:indexPath.row];
-    [categoryCell setTitle: [mCategory fieldNameAtIndex:indexPath.row]];
-    categoryCell.mImageView.image = [mCategory isFieldScrambledAtIndex:indexPath.row] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"];
+    categoryCell.mTitleLabel.text = [category fieldNameAtIndex:indexPath.row];
+    [categoryCell setTitle: [category fieldNameAtIndex:indexPath.row]];
+    categoryCell.mImageView.image = [category isFieldScrambledAtIndex:indexPath.row] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"];
     
     return categoryCell;
 }
@@ -182,7 +201,7 @@
 {
     if( tableView.isEditing )
     {
-        if( indexPath.row == [mCategory totalFieldNames] )
+        if( indexPath.row == [mEditableCategory totalFieldNames] )
         {
             return UITableViewCellEditingStyleInsert;
         }
@@ -191,10 +210,18 @@
     return  UITableViewCellEditingStyleNone;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( tableView.editing && editingStyle == UITableViewCellEditingStyleInsert )
+    {
+        [mEditableCategory addFieldValue:@""];
+        [tableView reloadData];
+    }
+}
+
 #pragma DVInputTextFieldCellDelegate
 -(void)textFieldCellDidBeginEditing:(DVInputTextFieldCell*)cell
 {
-    
     CGRect cellRect = [mCategoryListView rectForRowAtIndexPath:[mCategoryListView indexPathForCell:cell]];
     CGRect visibleRect = CGRectMake(0.0, mCategoryListView.contentOffset.y, 320.0, 200.0);
     
