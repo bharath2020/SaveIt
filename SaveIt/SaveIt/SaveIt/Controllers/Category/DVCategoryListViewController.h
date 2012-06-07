@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "DTGridView.h"
+#import "DVCategoryCreationController.h"
 
-@interface DVCategoryListViewController : UIViewController<UITableViewDataSource,DTGridViewDataSource, DTGridViewDelegate>
+@interface DVCategoryListViewController : UIViewController<UITableViewDataSource,DTGridViewDataSource, DTGridViewDelegate, DVCategoryCreationProtocol,UIActionSheetDelegate>
 {
     IBOutlet UITableView *mCategoryListView;
     DTGridView *mCategoryGridView;

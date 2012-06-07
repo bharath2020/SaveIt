@@ -40,9 +40,15 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)awakeFromNib
 {
     [mValueField setDelegate:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:mValueField];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -56,6 +62,7 @@
 {
 
 }
+
 
 - (void)setCellType:(EInputCellType)inputCellType
 {
@@ -71,10 +78,9 @@
     }
 }
 
-#pragma UITextFieldCell Delegate
-- (void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)setIconImage:(UIImage*)image
 {
-    [_cellDelegate textFieldCellDidBeginEditing:self];
+    [mImageView setImage:image];
 }
 
 - (void)setTitle:(NSString*)title
@@ -87,5 +93,24 @@
         mValueField.text = title;
     }
 }
+
+- (IBAction)buttonTap:(id)sender
+{
+    [_cellDelegate textFieldCellDidTapButton:self];   
+}
+
+
+#pragma UITextFieldCell Delegate
+- (void)textDidChange:(NSNotification*)notif
+{
+    [_cellDelegate textFieldCellTextDidChange:self text:mValueField.text];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [_cellDelegate textFieldCellDidBeginEditing:self];
+}
+
+
 
 @end

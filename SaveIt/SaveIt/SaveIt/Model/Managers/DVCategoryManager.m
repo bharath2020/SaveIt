@@ -115,6 +115,7 @@ static DVCategoryManager *sSharedManager = nil;
         while ([result next]) {
             DVCategory *category = [[DVCategory alloc]init];
             category.categoryID = [result unsignedLongLongIntForColumn:CATEGORY_ID];
+            NSLog(@"cat int : %u", category.categoryID);
             category.categoryName = [result stringForColumn:CATEGORY_NAME];
             [category setFieldNames:[result stringForColumn:CATEGORY_FIELD_NAMES] scramble:[result stringForColumn:CATEGORY_FIELD_SCRAMBLE]];
             category.iconName = [result stringForColumn:CATEGORY_FIELD_ICON_NAME];
@@ -162,11 +163,10 @@ static DVCategoryManager *sSharedManager = nil;
             BOOL status = [db executeUpdate:query];
             if( status )
             {
-                category.categoryID = [db lastInsertRowId];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoryUpdatedNotification object:category];
+                });
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
-            });
         }];
     }
     else {

@@ -24,7 +24,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 
 @implementation DVCategory
 @synthesize categoryName;
-@synthesize categoryID;
+@synthesize categoryID=mCategoryID;
 @dynamic lastModifiedDate;
 @synthesize lasteModifiedInterval=mLastModified;
 @synthesize iconName;
@@ -54,7 +54,10 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
     newCategory.lasteModifiedInterval = self.lasteModifiedInterval;
     if( self->mFieldNames )
     {
-        [newCategory->mFieldNames  addObjectsFromArray:self->mFieldNames];
+        for( NSDictionary *dict in self->mFieldNames )
+        {
+            [newCategory->mFieldNames addObject:[NSMutableDictionary dictionaryWithDictionary:dict]];
+        }
     }
     return  newCategory;    
 }
@@ -62,6 +65,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 -(void)copyFromCategory:(DVCategory*)otherCategory
 {
     self.categoryID = otherCategory.categoryID;
+    self.categoryName = otherCategory.categoryName;
     self.iconName = otherCategory.iconName;
     self.lasteModifiedInterval = otherCategory.lasteModifiedInterval;
     if( self->mFieldNames )
@@ -108,7 +112,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 
 -(BOOL)hasCategoryID
 {
-    return categoryID != NSUIntegerMax;
+    return mCategoryID != NSUIntegerMax;
 }
 
 -(NSUInteger)totalFieldNames
@@ -138,7 +142,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 
 -(void)addFieldValue:(NSString*)fieldValue
 {
-    [mFieldNames addObject:[NSDictionary dictionaryWithObjectsAndKeys:fieldValue, CAT_FIELD_NAME_KEY, [NSNumber numberWithBool:NO], CAT_FIELD_SCRAMBLE_KEY, nil]];    
+    [mFieldNames addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fieldValue, CAT_FIELD_NAME_KEY, [NSNumber numberWithBool:NO], CAT_FIELD_SCRAMBLE_KEY, nil]];    
 }
 
 -(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex
@@ -148,6 +152,15 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
         [mFieldNames removeObjectAtIndex:fieldIndex];   
     }
 }
+
+-(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index
+{
+    if( index < [mFieldNames count] && newValue)
+    {
+        [[mFieldNames objectAtIndex:index] setObject:newValue forKey:CAT_FIELD_NAME_KEY];
+    }
+}
+
 
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex
 {
@@ -159,6 +172,16 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
     return  isScrambled;
 }
 
+-(BOOL)toggleScrambleAtIndex:(NSUInteger)fieldIndex
+{
+    BOOL isScrambled = [self isFieldScrambledAtIndex:fieldIndex];
+    isScrambled = !isScrambled;
+    if( fieldIndex < [mFieldNames count] )
+    {
+        [[mFieldNames objectAtIndex:fieldIndex] setObject:(isScrambled ? @"1" : @"0")  forKey:CAT_FIELD_SCRAMBLE_KEY];
+    }
+    return isScrambled;
+}
 
 
 -(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble
@@ -171,7 +194,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
         [mFieldNames removeAllObjects];
         for( NSUInteger index = 0 ; index < [fieldNameArray count] ; index++ )
         {
-            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[fieldNameArray objectAtIndex:index], CAT_FIELD_NAME_KEY,  [scrambleArray objectAtIndex:index], CAT_FIELD_SCRAMBLE_KEY, nil];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[fieldNameArray objectAtIndex:index], CAT_FIELD_NAME_KEY,  [scrambleArray objectAtIndex:index], CAT_FIELD_SCRAMBLE_KEY, nil];
             [mFieldNames addObject:dict];
         }
     }
@@ -185,7 +208,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
     NSUInteger fieldCount = [self totalFieldNames];
     for ( NSUInteger fieldIndex=0; fieldIndex < fieldCount ; fieldIndex++ )
     {
-        [fieldValues addObject:[self fieldNameAtIndex:fieldIndex]];
+        [fieldValues addObject:[self fieldValueAtIndex:fieldIndex]];
     }
     return  [fieldValues componentsJoinedByString:@"|"];
 }

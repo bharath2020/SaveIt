@@ -21,6 +21,7 @@ extern NSString *DVCategoryUpdatedNotification;
 
 @interface DVCategory : NSObject<NSCopying>
 {
+    @public
     NSUInteger mCategoryID;
     NSString * mCategeoryName;
     NSMutableArray *mFieldNames;
@@ -51,9 +52,11 @@ extern NSString *DVCategoryUpdatedNotification;
 -(NSUInteger)totalFieldNames;
 -(NSString*)fieldNameAtIndex:(NSUInteger)fieldIndex;
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex;
+-(BOOL)toggleScrambleAtIndex:(NSUInteger)fieldIndex;
 -(NSString*)fieldValueAtIndex:(NSUInteger)fieldIndex;
 -(void)addFieldValue:(NSString*)fieldValue;
 -(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex;
+-(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index;
 
 
 //load the cards on completion the completedBlock will be invoked where you can get the cards loaded

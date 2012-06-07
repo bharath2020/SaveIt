@@ -21,6 +21,7 @@
 }
 - (void)initialise;
 - (void)updateEditToolbar;
+- (void)showActionItems;
 @end
 
 @implementation DVCategoryListViewController
@@ -63,7 +64,8 @@
 {
     [super viewDidLoad];
     
-    mEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editCategory:)];
+   // mEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editCategory:)];
+    mEditButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActions:)];
     self.navigationItem.rightBarButtonItem = mEditButton;
     
     mDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(editCategory:)];
@@ -93,9 +95,20 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [mCategoryGridView reloadData];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)showActions:(id)sender
+{
+    [self showActionItems];
 }
 
 -(IBAction)editCategory:(id)sender
@@ -173,8 +186,9 @@
 - (NSInteger)numberOfColumnsInGridView:(DTGridView *)gridView forRowWithIndex:(NSInteger)index
 {
     NSUInteger totalCategories =  ([[DVCategoryManager sharedInstance] totalCategories] );
+    
 
-    return MIN(TOTAL_COLUMNS, totalCategories);
+    return MIN(TOTAL_COLUMNS, totalCategories - (index * TOTAL_COLUMNS));
 }
 
 - (CGFloat)gridView:(DTGridView *)gridView heightForRow:(NSInteger)rowIndex
@@ -218,12 +232,19 @@
     else {
         //show category creation
         DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:[NSBundle mainBundle]];
+        categoryCreator.creatorDelegate = self;
         [self.navigationController pushViewController:categoryCreator animated:YES];
         [categoryCreator showDetailsOfCategory:[_sharedCategoryManager categoryAtIndex:index]];
     }
 }
 
 #pragma mark Editing
+
+- (void)showActionItems
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"What do you want to do?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add New Category", @"Edit", nil];
+    [actionSheet showInView:self.tabBarController.view];
+}
 
 - (void)updateEditToolbar
 {
@@ -259,6 +280,42 @@
          }];
     }
     [self updateEditToolbar];
+}
+
+#pragma CategoryCreationProtocol 
+-(void)categoryCreation:(DVCategoryCreationController*)controller didEditCategory:(DVCategory*)newCategory
+{
+    BOOL pullBack = ![newCategory hasCategoryID];
+    [_sharedCategoryManager saveCategory:newCategory];
+    if( pullBack )
+    {
+        [self.navigationController popToViewController:self animated:YES];
+    }
+}
+
+#pragma UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"%d",buttonIndex);
+
+    switch (buttonIndex) {
+        case 0:
+        {
+            DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:[NSBundle mainBundle]];
+            categoryCreator.creatorDelegate = self;
+            [self.navigationController pushViewController:categoryCreator animated:YES];
+            [categoryCreator showDetailsOfCategory:[DVCategory newCategory]];
+        }
+            break;
+        case 1:
+        {
+            [self editCategory:nil];
+        }
+            break;
+       
+        default:
+            break;
+    }
 }
 
 

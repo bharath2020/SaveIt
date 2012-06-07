@@ -18,6 +18,8 @@ typedef enum _InputCellType
 @protocol DVInputTextFieldCellDelegate <NSObject>
 
 -(void)textFieldCellDidBeginEditing:(DVInputTextFieldCell*)cell;
+-(void)textFieldCellTextDidChange:(DVInputTextFieldCell*)cell text:(NSString*)newText;
+-(void)textFieldCellDidTapButton:(DVInputTextFieldCell*)cell;
 
 @end
 
@@ -36,7 +38,10 @@ typedef enum _InputCellType
 @property( nonatomic, strong) UILabel     *mValueFieldLabel;
 @property( nonatomic, unsafe_unretained) id<DVInputTextFieldCellDelegate> cellDelegate;
 
+- (IBAction)buttonTap:(id)sender;
+
 - (void)setCellType:(EInputCellType)inputCellType;
 - (void)setTitle:(NSString*)title;
+- (void)setIconImage:(UIImage*)image;
 
 @end

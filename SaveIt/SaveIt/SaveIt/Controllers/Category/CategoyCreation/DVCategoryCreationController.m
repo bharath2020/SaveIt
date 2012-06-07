@@ -18,6 +18,7 @@
 @property(nonatomic,strong) DVCategory *category;
 @property(nonatomic, strong)DVCategory *editableCategory;
 - (void)updateDisplay;
+- (void)extractDataFromUI;
 @end
 
 @implementation DVCategoryCreationController
@@ -70,12 +71,18 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardWillHideNotification object:nil];
     [self updateDisplay];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -88,6 +95,10 @@
 -(void)showDetailsOfCategory:(DVCategory*)category
 {
     self.category = category;
+    if( ![category hasCategoryID] )
+    {
+        [self editCategory:mEditButton];
+    }
 }
 
 - (void)updateDisplay
@@ -102,21 +113,29 @@
     titleLabel.text = mCategory.categoryName;
 }
 
+- (void)extractDataFromUI
+{
+    mEditableCategory.categoryName = [(UILabel*)[mCategoryListView.tableHeaderView viewWithTag:799] text];
+}
+
 - (void)editCategory:(id)sender
 {
-    [self setEditing:!mCategoryListView.isEditing animated:YES];
     
     if( sender == mDoneButton )
     {
-        [self.creatorDelegate categoryCreation:self didEditCategory:mEditableCategory];
+        [self extractDataFromUI];
         [self.category copyFromCategory:mEditableCategory];
+        [self.creatorDelegate categoryCreation:self didEditCategory:self.category];
         [mCategoryListView reloadData];
     }
+    [self setEditing:!mCategoryListView.isEditing animated:YES];
+
 }
 
 - (void)cancelEditing:(id)sender
 {
-    
+    [self setEditing:NO animated:YES];
+    [mCategoryListView reloadData];
 }
 
 #pragma Table Editing
@@ -149,7 +168,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DVCategory *category = tableView.editing ? mEditableCategory : mCategory;
+    DVCategory *category = mCategory;
+    NSLog(@"%@", [mCategory fieldValueAtIndex:1]);
+    if( tableView.editing )
+    {
+        category = mEditableCategory;
+    }
     if( tableView.editing && indexPath.row == [category totalFieldNames])
     {
         static NSString *addCellID = @"add_cell";
@@ -191,7 +215,7 @@
     }
     
     categoryCell.mTitleLabel.text = [category fieldNameAtIndex:indexPath.row];
-    [categoryCell setTitle: [category fieldNameAtIndex:indexPath.row]];
+    [categoryCell setTitle: [category fieldValueAtIndex:indexPath.row]];
     categoryCell.mImageView.image = [category isFieldScrambledAtIndex:indexPath.row] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"];
     
     return categoryCell;
@@ -214,12 +238,18 @@
 {
     if( tableView.editing && editingStyle == UITableViewCellEditingStyleInsert )
     {
-        [mEditableCategory addFieldValue:@""];
+        [mEditableCategory addFieldValue:@"Field_test"];
         [tableView reloadData];
     }
 }
 
 #pragma DVInputTextFieldCellDelegate
+-(void)textFieldCellTextDidChange:(DVInputTextFieldCell*)cell text:(NSString*)newText
+{
+    NSIndexPath *cellIndex = [mCategoryListView indexPathForCell:cell];
+    [mEditableCategory setFieldValue:newText atIndex:cellIndex.row];
+}
+
 -(void)textFieldCellDidBeginEditing:(DVInputTextFieldCell*)cell
 {
     CGRect cellRect = [mCategoryListView rectForRowAtIndexPath:[mCategoryListView indexPathForCell:cell]];
@@ -232,6 +262,17 @@
         CGPoint contentOffset = mCategoryListView.contentOffset;
         contentOffset.y = contentOffset.y + diff;
         [mCategoryListView setContentOffset:contentOffset animated:NO];
+    }
+}
+
+-(void)textFieldCellDidTapButton:(DVInputTextFieldCell*)cell
+{
+    if( mCategoryListView.editing )
+    {
+        NSIndexPath *cellIndex = [mCategoryListView indexPathForCell:cell];
+        BOOL isScrambled = [mEditableCategory toggleScrambleAtIndex:cellIndex.row];
+        cell.mImageView.image = isScrambled ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"];
+
     }
 }
 
