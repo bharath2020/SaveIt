@@ -31,7 +31,7 @@
     
     DVCategoryListViewController *categoryListViewController = [[DVCategoryListViewController alloc] initWithNibName:@"DVCategoryListViewController" bundle:nil];
     UINavigationController *categoryNavController = [[UINavigationController alloc] initWithRootViewController:categoryListViewController];
-    
+    categoryNavController.navigationBar.tintColor = [UIColor colorWithRed:140/255.0 green:58.0f/255.0f blue:12.0/255.0f alpha:1.0];
 
     
     self.tabBarController = [[UITabBarController alloc] init];

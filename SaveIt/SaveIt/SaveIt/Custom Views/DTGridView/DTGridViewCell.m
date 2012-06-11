@@ -36,11 +36,14 @@
     [self addSubview:imageView];
     
     mTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    mTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:14.0];
+    mTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14.0];
 	[self addSubview:mTitleLabel];
     mTitleLabel.textAlignment = UITextAlignmentCenter;
-    self.layer.borderWidth = 1.0;
-    self.layer.borderColor = [UIColor grayColor].CGColor;
+    mTitleLabel.backgroundColor = [UIColor clearColor];
+    mTitleLabel.shadowColor = [UIColor whiteColor];
+    mTitleLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+//    self.layer.borderWidth = 1.0;
+//    self.layer.borderColor = [UIColor grayColor].CGColor;
 	return self;
 }
 

@@ -48,7 +48,7 @@ NSInteger const DTGridViewInvalid = -1;
 
 @dynamic delegate;
 @synthesize dataSource, gridCells, numberOfRows, cellOffset, outset;
-@synthesize decelerationTimer, draggingTimer;
+@synthesize decelerationTimer, draggingTimer,initialYOffset;
 
 - (void)dealloc {
 	super.delegate = nil;
@@ -380,7 +380,7 @@ NSInteger intSort(id info1, id info2, void *context) {
 			CGFloat x;
 			
 			if (i == 0) {
-				y = 0.0f;
+				y = self.initialYOffset;//0.0f;
 				//info.frame.origin.y = 0.0;
 			} else {
 				DTGridViewCellInfo *previousCellRow = [[cellInfoArrayRows objectAtIndex:i-1] objectAtIndex:0];
@@ -391,7 +391,7 @@ NSInteger intSort(id info1, id info2, void *context) {
 			}
 			
 			if (j == 0) {
-				x = 0.0f;
+				x = cellOffset.x;//0.0f;
 			} else {
 				DTGridViewCellInfo *previousCellRow = [cellInfoArrayCols objectAtIndex:j-1];
 				x = previousCellRow.frame.origin.x + previousCellRow.frame.size.width;

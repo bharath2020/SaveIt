@@ -13,6 +13,8 @@
 #import "DVCategoryCreationController.h"
 
 #define TOTAL_COLUMNS 4
+#define CELL_HEIGHT 80
+#define CELL_WIDTH 80
 
 @interface DVCategoryListViewController ()
 {
@@ -79,10 +81,13 @@
     [self.view addSubview:mCategoryGridView];
     mCategoryGridView.delegate = self;
     mCategoryGridView.dataSource = self;
-    mCategoryGridView.backgroundColor = [UIColor whiteColor];
-    
+    mCategoryGridView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
+    float cellOffset = (self.view.frame.size.width - (CELL_WIDTH * TOTAL_COLUMNS))/ (TOTAL_COLUMNS+1);
+    mCategoryGridView.cellOffset = CGPointMake(cellOffset , cellOffset);
+    mCategoryGridView.initialYOffset = 10.0;
     [self.view bringSubviewToFront:mEditToolBar];
     [self setEditing:NO animated:NO];
+
 }
 
 - (void)viewDidUnload
@@ -193,12 +198,12 @@
 
 - (CGFloat)gridView:(DTGridView *)gridView heightForRow:(NSInteger)rowIndex
 {
-    return 80.0;
+    return CELL_HEIGHT;
 }
 
 - (CGFloat)gridView:(DTGridView *)gridView widthForCellAtRow:(NSInteger)rowIndex column:(NSInteger)columnIndex
 {
-    return 80.0;
+    return CELL_WIDTH;
 }
 
 - (DTGridViewCell *)gridView:(DTGridView *)gridView viewForRow:(NSInteger)rowIndex column:(NSInteger)columnIndex

@@ -167,6 +167,7 @@ struct DTOutset {
 @property (assign) UIEdgeInsets outset;
 @property (nonatomic, retain) NSMutableArray *gridCells;
 @property (nonatomic) NSInteger numberOfRows;
+@property (nonatomic,assign) float initialYOffset;
 
 #pragma mark -
 #pragma mark Subclass methods
