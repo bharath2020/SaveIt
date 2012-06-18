@@ -36,6 +36,7 @@ extern NSString *DVCategoryUpdatedNotification;
 @property(strong, nonatomic) NSString *iconName;
 @property(strong, nonatomic, readonly) UIImage *icon;
 @property(nonatomic, assign) NSTimeInterval lasteModifiedInterval;
+@property(nonatomic, strong) DVCardManager *cardManager;
 //category creation
 +(DVCategory*)newCategory;
 +(DVCategory*)newCategoryWithID:(NSUInteger)catID;
@@ -57,6 +58,9 @@ extern NSString *DVCategoryUpdatedNotification;
 -(void)addFieldValue:(NSString*)fieldValue;
 -(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex;
 -(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index;
+
+//card list
+-(NSUInteger)totalCards;
 
 
 //load the cards on completion the completedBlock will be invoked where you can get the cards loaded

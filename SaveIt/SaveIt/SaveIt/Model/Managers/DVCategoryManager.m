@@ -36,8 +36,8 @@ static DVCategoryManager *sSharedManager = nil;
     {
         mObjects = [[NSMutableArray alloc] init];
         _selectedItems = [[NSMutableSet alloc] init];
-        [self loadCategories:^(BOOL completed){
-        }];
+        //[self loadCategories:^(BOOL completed){
+        //}];
     }
     return self;
 }

@@ -99,9 +99,9 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
              {
                  DVCategory *category = [DVCategory newCategoryWithID:categoryID];
                  
-                 category.categoryID = [result unsignedLongLongIntForColumn:CATEGORY_ID];
-                 category.categoryName = [result stringForColumn:CATEGORY_NAME];
-                 category.iconName = [result stringForColumn:CATEGORY_FIELD_ICON_NAME];
+                 category.categoryID = [categorySearchResult unsignedLongLongIntForColumn:CATEGORY_ID];
+                 category.categoryName = [categorySearchResult stringForColumn:CATEGORY_NAME];
+                 category.iconName = [categorySearchResult stringForColumn:CATEGORY_FIELD_ICON_NAME];
                  card.category = category;
              }
                     

@@ -7,10 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DVCategory.h"
 
+@class DVCategoryManager;
 @interface DVCardsViewController : UIViewController
 {
-    IBOutlet UITableView *mTest;
+    IBOutlet UITableView *mCardsListView;
+    
+    DVCategoryManager *_categoryManager;
+    DVCategory *mCurrentCategory;
+    
+    
 }
 
 

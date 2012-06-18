@@ -28,6 +28,8 @@
     
     //create a tab bar
     DVCardsViewController *cardsViewController = [[DVCardsViewController alloc] initWithNibName:@"DVCardsViewController" bundle:nil];
+    UINavigationController *cardsNavController = [[UINavigationController alloc] initWithRootViewController:cardsViewController];
+
     
     DVCategoryListViewController *categoryListViewController = [[DVCategoryListViewController alloc] initWithNibName:@"DVCategoryListViewController" bundle:nil];
     UINavigationController *categoryNavController = [[UINavigationController alloc] initWithRootViewController:categoryListViewController];
@@ -35,7 +37,7 @@
 
     
     self.tabBarController = [[UITabBarController alloc] init];
-    [self.tabBarController setViewControllers:[NSArray arrayWithObjects:cardsViewController,categoryNavController, nil]];
+    [self.tabBarController setViewControllers:[NSArray arrayWithObjects:cardsNavController,categoryNavController, nil]];
     
     
     // Override point for customization after application launch.

@@ -29,6 +29,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 @synthesize lasteModifiedInterval=mLastModified;
 @synthesize iconName;
 @dynamic icon;
+@synthesize cardManager = mCardManager;
 
 
 //-----------------Init
@@ -93,7 +94,9 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
 
 +(DVCategory*)newCategoryWithID:(NSUInteger)catID
 {
-    return  nil;
+    DVCategory *category = [[DVCategory alloc] init];
+    category.categoryID = catID;
+    return  category;
 }
 
 //------------------gettesrs
