@@ -29,5 +29,10 @@ extern NSString * DVCardsUpdateNotificationEvent;
 -(DVCard *)cardAtIndex:(NSUInteger)index;
 -(void)loadCards:(void (^)(BOOL finished))completed;
 
+//manipulate cards
+-(void)addCard:(DVCard *)newCard;
+-(void)removeCard:(DVCard*)cardToRemove;
+-(void)saveCard:(DVCard*)cardToSave;
+
 
 @end

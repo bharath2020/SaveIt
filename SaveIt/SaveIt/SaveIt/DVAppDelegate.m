@@ -29,6 +29,7 @@
     //create a tab bar
     DVCardsViewController *cardsViewController = [[DVCardsViewController alloc] initWithNibName:@"DVCardsViewController" bundle:nil];
     UINavigationController *cardsNavController = [[UINavigationController alloc] initWithRootViewController:cardsViewController];
+    cardsNavController.navigationBar.tintColor = [UIColor colorWithRed:140/255.0 green:58.0f/255.0f blue:12.0/255.0f alpha:1.0];
 
     
     DVCategoryListViewController *categoryListViewController = [[DVCategoryListViewController alloc] initWithNibName:@"DVCategoryListViewController" bundle:nil];

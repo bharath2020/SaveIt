@@ -10,6 +10,7 @@
 #import "DVCategoryManager.h"
 #import "DVCardManager.h"
 #import "DVCard.h"
+#import "DVCardCreationController.h"
 
 @interface DVCardsViewController ()
 
@@ -87,9 +88,16 @@
     
     DVCard *card = [mCurrentCategory.cardManager cardAtIndex:indexPath.row];
     categoryCell.textLabel.text = card.title;
-    
+    categoryCell.imageView.image = card.icon;
     return categoryCell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DVCard *card = [mCurrentCategory.cardManager cardAtIndex:indexPath.row];
+    DVCardCreationController *cardCreation = [[DVCardCreationController alloc] initWithNibName:@"DVCardCreationController" bundle:nil];
+    [self.navigationController pushViewController:cardCreation animated:YES];
+    [cardCreation showCardInfo:card];
+}
 
 @end

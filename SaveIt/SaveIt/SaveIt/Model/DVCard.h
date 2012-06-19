@@ -23,6 +23,8 @@
 
 extern NSString *const DVCardDidUpdateNotification;
 
+@class DVCategory;
+
 @interface DVCard : NSObject
 {
     NSUInteger mCardID;
@@ -43,12 +45,19 @@ extern NSString *const DVCardDidUpdateNotification;
 @property(nonatomic) BOOL isFavorite;
 @property(nonatomic, readonly) NSDate *lastModifiedDate;
 @property(nonatomic, assign) NSTimeInterval lastModifiedInterval;
+@property(strong, nonatomic, readonly) UIImage *icon;
+
++(DVCard*)cardFromCategory:(DVCategory*)category;
+-(BOOL)hasCardId;
 
 #pragma mark field list
 -(NSUInteger)totalFieldNames;
 -(NSString*)fieldNameAtIndex:(NSUInteger)fieldIndex;
 -(NSString*)fieldValueAtIndex:(NSUInteger)fieldIndex;
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex;
+-(void)addFieldValue:(NSString*)fieldValue fieldName:(NSString*)fieldName isScramble:(BOOL)scramble;
+-(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex;
+-(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index;
 
 -(NSString*)fieldNameString;
 -(NSString*)fieldValueString;

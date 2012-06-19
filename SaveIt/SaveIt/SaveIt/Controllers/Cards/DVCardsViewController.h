@@ -10,7 +10,7 @@
 #import "DVCategory.h"
 
 @class DVCategoryManager;
-@interface DVCardsViewController : UIViewController
+@interface DVCardsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
     IBOutlet UITableView *mCardsListView;
     

@@ -9,6 +9,7 @@
 #import "DVCard.h"
 #import "DVHelper.h"
 #import "DVCategory.h"
+#import "UIImage+Loader.h"
 
 #define CARD_FIELD_ID  @"card_id"
 #define CARD_TITLE     @"card_title"
@@ -51,6 +52,11 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     return self;
 }
 
+-(BOOL)hasCardId
+{
+    return self.cardID != NSUIntegerMax;
+}
+
 -(NSDate*)lastModifiedDate
 {
     return [NSDate dateWithTimeIntervalSince1970:mLastModifiedDate];
@@ -89,13 +95,12 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     NSArray *scrambleArray = [scramble componentsSeparatedByString:@"|"];
     NSArray *fieldValueArray = [fieldValues componentsSeparatedByString:@"|"];
     
-    
     if( [fieldNameArray count] == [scrambleArray count] )
     {
         [mFields removeAllObjects];
         for( NSUInteger index = 0 ; index < [fieldNameArray count] ; index++ )
         {
-            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[fieldNameArray objectAtIndex:index], CARD_FIELD_NAME,  [scrambleArray objectAtIndex:index],CARD_FIELD_VALUE,[fieldValueArray objectAtIndex:index], CARD_FIELD_VALUE,nil];
+            NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:[fieldNameArray objectAtIndex:index], CARD_FIELD_NAME,  [scrambleArray objectAtIndex:index],CARD_FIELD_SCRAMBLE,[fieldValueArray objectAtIndex:index], CARD_FIELD_VALUE,nil];
             [mFields addObject:dict];
         }
     }
@@ -110,6 +115,27 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
         isScrambled = [(NSString*)[[mFields objectAtIndex:fieldIndex] valueForKey:CARD_FIELD_SCRAMBLE] boolValue];
     }
     return  isScrambled;
+}
+
+-(void)addFieldValue:(NSString*)fieldValue fieldName:(NSString*)fieldName isScramble:(BOOL)scramble
+{
+    [mFields addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fieldName, CARD_FIELD_NAME,fieldValue, CARD_FIELD_VALUE,  [NSNumber numberWithBool:scramble], CARD_FIELD_SCRAMBLE, nil]];    
+}
+
+-(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex
+{
+    if( fieldIndex < [mFields count] )
+    {
+        [mFields removeObjectAtIndex:fieldIndex];   
+    }
+}
+
+-(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index
+{
+    if( index < [mFields count] && newValue)
+    {
+        [[mFields objectAtIndex:index] setObject:newValue forKey:CARD_FIELD_VALUE];
+    }
 }
 
 -(NSString*)fieldNameString
@@ -146,6 +172,12 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     return  [fieldValues componentsJoinedByString:@"|"];
 }
 
+- (UIImage*)icon
+{
+    UIImage *icon =   [UIImage imageFromDocuments:self.iconName];
+    return  icon!= nil ? icon : [UIImage imageNamed:@"no_cat_image.png"];
+}
+
 -(void)loadDetails
 {
     FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
@@ -172,9 +204,9 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
             {
                 DVCategory *category = [DVCategory newCategoryWithID:categoryID];
                 
-                category.categoryID = [result unsignedLongLongIntForColumn:CATEGORY_ID];
-                category.categoryName = [result stringForColumn:CATEGORY_NAME];
-                category.iconName = [result stringForColumn:CATEGORY_FIELD_ICON_NAME];
+                category.categoryID = [categorySearchResult unsignedLongLongIntForColumn:CATEGORY_ID];
+                category.categoryName = [categorySearchResult stringForColumn:CATEGORY_NAME];
+                category.iconName = [categorySearchResult stringForColumn:CATEGORY_FIELD_ICON_NAME];
                 self.category = category;
             }
             
@@ -186,5 +218,16 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     }];
 }
 
+#pragma Creation
++(DVCard*)cardFromCategory:(DVCategory*)category
+{
+    DVCard *card  = [[DVCard alloc] init];
+    for( NSUInteger fieldIndex = 0 ; fieldIndex < [category totalFieldNames]; fieldIndex++ )
+    {
+        [card addFieldValue:[category fieldValueAtIndex:fieldIndex] fieldName:[category fieldNameAtIndex:fieldIndex] isScramble:[category isFieldScrambledAtIndex:fieldIndex]];
+    }
+    card.category = category;
+    return  card;
+}
 
 @end

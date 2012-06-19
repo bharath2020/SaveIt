@@ -118,4 +118,69 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
 }
 
 
+
+
+//manipulate cards
+-(void)addCard:(DVCard *)newCard
+{
+    FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
+    [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
+        
+        NSString *query = [NSString stringWithFormat:@"INSERT INTO CARD(%@, %@, %@, %@, %@, %@, %@, %@, %@) VALUES('%@', '%u', '%@', '%@', '%@', '%@', '%@', '%d', '%f' )",CARD_TITLE , CARD_CATEGORY_ID, CARD_ICON_NAME, CARD_FIELD_NAME,CARD_FIELD_SCRAMBLE, CARD_FIELD_VALUES, CARD_NOTE, CARD_IS_FAVORITE,  CARD_LAST_MODIFIED ,newCard.title, newCard.category.categoryID,  [newCard iconName], [newCard fieldNameString],   [newCard  scrambleString], [newCard fieldValueString], newCard.note, newCard.isFavorite, newCard.lastModifiedInterval ];
+        BOOL status = [db executeUpdate:query];
+        if( status )
+        {
+            newCard.cardID = [db lastInsertRowId];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [mObjects addObject:newCard];
+            [[NSNotificationCenter defaultCenter ] postNotificationName:DVCardsUpdateNotificationEvent object:self];
+        });
+    }];
+}
+
+-(void)removeCard:(DVCard*)cardToRemove
+{
+    if( [cardToRemove hasCardId ] )
+    {
+        FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
+        [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
+            if( [cardToRemove hasCardId] )
+            {
+                BOOL status = [db executeUpdate:[NSString stringWithFormat:@"DELETE FROM CARD WHERE %@ = %u", CARD_ID, cardToRemove.cardID]];
+                if( status )
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [mObjects removeObject:cardToRemove];
+                        [[NSNotificationCenter defaultCenter ] postNotificationName:DVCardsUpdateNotificationEvent object:self];
+                    });
+                }
+            }
+        }];
+    }
+}
+
+-(void)saveCard:(DVCard*)cardToSave
+{
+    if( [cardToSave hasCardId] )
+    {
+        FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
+        [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
+            
+            NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO CARD(%@, %@, %@, %@, %@, %@, %@, %@, %@, %@) VALUES('%@', '%u', '%@', '%@', '%@', '%@', '%@', '%d', '%f' )",CARD_ID, CARD_TITLE , CARD_CATEGORY_ID, CARD_ICON_NAME, CARD_FIELD_NAME,CARD_FIELD_SCRAMBLE, CARD_FIELD_VALUES, CARD_NOTE, CARD_IS_FAVORITE,  CARD_LAST_MODIFIED , cardToSave.cardID, cardToSave.title, cardToSave.category.categoryID,  [cardToSave iconName], [cardToSave fieldNameString],   [cardToSave  scrambleString], [cardToSave fieldValueString], cardToSave.note, cardToSave.isFavorite, cardToSave.lastModifiedInterval ];
+            BOOL status = [db executeUpdate:query];
+            if( status )
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[NSNotificationCenter defaultCenter ] postNotificationName:DVCardDidUpdateNotification object:cardToSave];
+                });
+            }
+        }];
+    }
+    else {
+        [self addCard:cardToSave];
+    }
+}
+
+
 @end
