@@ -11,13 +11,21 @@
 @class DVCategory;
 @class DVCard;
 
-@interface DVCardCreationController : UIViewController
+@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UITableView *mCardInfoView;
     IBOutlet UIImageView *mCardIconView;
     IBOutlet UILabel *mCardTitleView;
+    IBOutlet UIView *mEditableHeaderView;
+    IBOutlet UIView *mNormalHeaderView;
+    
+    UIBarButtonItem *mEditButton;
+    UIBarButtonItem *mDoneButton;
+    UIBarButtonItem *mCancelButton;
+
     
 }
+
 
 - (void)createCardForCategory:(DVCategory*)parentCategory;
 - (void)showCardInfo:(DVCard*)card;

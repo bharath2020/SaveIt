@@ -145,12 +145,10 @@
 #pragma Table Editing
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
-    
     if( editing )
     {
         self.editableCategory = [mCategory copy];    
     }
-   
     
     [mCategoryListView setEditing:editing animated:animated];
     mCategoryListView.tableHeaderView = editing ? mEditableHeaderView : mNormalHeaderView;
@@ -178,6 +176,8 @@
     {
         category = mEditableCategory;
     }
+    
+    //Normal Cell
     if( tableView.editing && indexPath.row == [category totalFieldNames])
     {
         static NSString *addCellID = @"add_cell";

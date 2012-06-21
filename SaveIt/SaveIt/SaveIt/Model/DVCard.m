@@ -52,6 +52,45 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     return self;
 }
 
+#pragma Copying
+- (id)copyWithZone:(NSZone *)zone
+{
+    DVCard *newCard = [[DVCard alloc] init];
+    newCard.cardID = self.cardID;
+    newCard.iconName = self.iconName;
+    newCard.lastModifiedInterval = self.lastModifiedInterval;
+    newCard.title = self.title;
+    newCard.note = self.note;
+    newCard.isFavorite = self.isFavorite;
+    newCard.category  = self.category;
+    if( self->mFields )
+    {
+        for( NSDictionary *dict in self->mFields )
+        {
+            [newCard->mFields addObject:[NSMutableDictionary dictionaryWithDictionary:dict]];
+        }
+    }
+    return  newCard;    
+}
+
+-(void)copyFromCard:(DVCard*)otherCard
+{
+    self.cardID = otherCard.cardID;
+    self.title = otherCard.title;
+    self.iconName = otherCard.iconName;
+    self.lastModifiedInterval = otherCard.lastModifiedInterval;
+    self.note = otherCard.note;
+    self.isFavorite = otherCard.isFavorite;
+    self.category = otherCard.category;
+    if( self->mFields )
+    {
+        [self->mFields removeAllObjects];
+        [self->mFields  addObjectsFromArray:otherCard->mFields];
+    }
+}
+
+#pragma Methods
+
 -(BOOL)hasCardId
 {
     return self.cardID != NSUIntegerMax;

@@ -25,7 +25,7 @@ extern NSString *const DVCardDidUpdateNotification;
 
 @class DVCategory;
 
-@interface DVCard : NSObject
+@interface DVCard : NSObject <NSCopying>
 {
     NSUInteger mCardID;
     NSString *mTitle;
@@ -48,6 +48,8 @@ extern NSString *const DVCardDidUpdateNotification;
 @property(strong, nonatomic, readonly) UIImage *icon;
 
 +(DVCard*)cardFromCategory:(DVCategory*)category;
+-(void)copyFromCard:(DVCard*)otherCard;
+
 -(BOOL)hasCardId;
 
 #pragma mark field list
