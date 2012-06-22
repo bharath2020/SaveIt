@@ -57,6 +57,8 @@ extern NSString *const DVCardDidUpdateNotification;
 -(NSString*)fieldNameAtIndex:(NSUInteger)fieldIndex;
 -(NSString*)fieldValueAtIndex:(NSUInteger)fieldIndex;
 -(BOOL)isFieldScrambledAtIndex:(NSUInteger)fieldIndex;
+-(BOOL)toggleScrambleAtIndex:(NSUInteger)fieldIndex;
+
 -(void)addFieldValue:(NSString*)fieldValue fieldName:(NSString*)fieldName isScramble:(BOOL)scramble;
 -(void)removeFieldValueAtIndex:(NSUInteger)fieldIndex;
 -(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index;

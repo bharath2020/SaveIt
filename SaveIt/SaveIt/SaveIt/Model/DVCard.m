@@ -156,6 +156,17 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     return  isScrambled;
 }
 
+-(BOOL)toggleScrambleAtIndex:(NSUInteger)fieldIndex
+{
+    BOOL isScrambled = [self isFieldScrambledAtIndex:fieldIndex];
+    isScrambled = !isScrambled;
+    if( fieldIndex < [mFields count] )
+    {
+        [[mFields objectAtIndex:fieldIndex] setObject:(isScrambled ? @"1" : @"0")  forKey:CARD_FIELD_SCRAMBLE];
+    }
+    return isScrambled;
+}
+
 -(void)addFieldValue:(NSString*)fieldValue fieldName:(NSString*)fieldName isScramble:(BOOL)scramble
 {
     [mFields addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fieldName, CARD_FIELD_NAME,fieldValue, CARD_FIELD_VALUE,  [NSNumber numberWithBool:scramble], CARD_FIELD_SCRAMBLE, nil]];    

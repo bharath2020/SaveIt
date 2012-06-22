@@ -8,14 +8,27 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DVCardCell : UITableViewCell
+@class DVCardCell;
+
+@protocol DVCardFieldCellDelegate <NSObject>
+
+-(void)textFieldCellDidBeginEditing:(DVCardCell*)cell;
+-(void)textFieldCellTextDidChange:(DVCardCell*)cell text:(NSString*)newText;
+-(void)textFieldCellDidTapButton:(DVCardCell*)cell;
+
+@end
+
+@interface DVCardCell : UITableViewCell<UITextFieldDelegate>
 {
     IBOutlet UILabel *mFieldTitleLabel;
     IBOutlet UITextField *mFieldValueField;
     IBOutlet UIImageView *mScrambleStateImageView;
+    __unsafe_unretained id<DVCardFieldCellDelegate> _cellDelegate;
 }
-- (IBAction)buttonTap:(id)sender;
+@property( nonatomic, unsafe_unretained) id<DVCardFieldCellDelegate> cellDelegate;
 
+
+- (IBAction)buttonTap:(id)sender;
 
 - (void)setFieldTitle:(NSString*)newTitle;
 - (void)setFieldValue:(NSString*)newValue;

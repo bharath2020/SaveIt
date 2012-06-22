@@ -21,6 +21,8 @@
 
 - (void)updateHeaders;
 - (void)refreshDisplay;
+- (void)extractDataFromUI;
+
 @end
 
 @implementation DVCardCreationController
@@ -70,17 +72,28 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [mCardInfoView reloadData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardWillHideNotification object:nil];
+    [self refreshDisplay];
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma Data update
 - (void)updateHeaders
 {
+    DVCard *card = self.editing ? _editableCard : _cardToView;
     UIView *tableHeaderView = mCardInfoView.tableHeaderView;
     UIImageView *imageView = (UIImageView*)[tableHeaderView viewWithTag:899];
-    imageView.image = [_cardToView icon];
+    imageView.image = [card icon];
     UILabel *titleLabel = (UILabel*)[tableHeaderView viewWithTag:799];
-    titleLabel.text = [_cardToView title];
+    titleLabel.text = [card title];
 }
 
 - (void)refreshDisplay
@@ -103,8 +116,20 @@
 
 #pragma Table Editing
 
+- (void)extractDataFromUI
+{
+    _editableCard.title = [(UILabel*)[mCardInfoView.tableHeaderView viewWithTag:799] text];
+}
+
 - (void)editCard:(id)sender
 {
+    if( sender == mDoneButton )
+    {
+       //[self extractDataFromUI];
+        [_cardToView copyFromCard:_editableCard];
+       // [self.creatorDelegate categoryCreation:self didEditCategory:self.category];
+        [mCardInfoView reloadData];
+    }
     [self setEditing:!mCardInfoView.editing animated:YES];
 }
 
@@ -115,10 +140,11 @@
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
-//    if( editing )
-//    {
-//        self.editableCategory = [mCategory copy];    
-//    }
+    [super setEditing:editing animated:animated];
+    if( editing )
+    {
+        self.editableCard = [_cardToView copy];    
+    }
     
     [mCardInfoView setEditing:editing animated:animated];
     mCardInfoView.tableHeaderView = editing ? mEditableHeaderView : mNormalHeaderView;
@@ -131,8 +157,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    DVCard *card = tableView.editing ? _editableCard : _cardToView;
     NSUInteger totalRows = 0;
-    totalRows = [_cardToView totalFieldNames]+1;
+    totalRows = [card totalFieldNames]+1;
     if( tableView.editing )
     {
         totalRows++;    
@@ -145,6 +172,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DVCard *card = tableView.editing ? _editableCard : _cardToView;
+
     UITableViewCell *cardCell = nil;
     if( indexPath.row == 0 ||  !tableView.editing )
     {
@@ -162,12 +191,12 @@
         {
             cardCell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             cardCell.textLabel.text = @"Category";
-            cardCell.detailTextLabel.text = [_cardToView category].categoryName;
+            cardCell.detailTextLabel.text = [card category].categoryName;
         }
         else {
             cardCell.editingAccessoryType = UITableViewCellAccessoryNone;
-            cardCell.textLabel.text = [_cardToView fieldNameAtIndex:indexPath.row-1];
-            cardCell.detailTextLabel.text = [_cardToView fieldValueAtIndex:indexPath.row-1];
+            cardCell.textLabel.text = [card fieldNameAtIndex:indexPath.row-1];
+            cardCell.detailTextLabel.text = [card fieldValueAtIndex:indexPath.row-1];
         }
     }
     else {
@@ -194,9 +223,9 @@
                 cardEditingCell =(DVCardCell*) cardCellController.view;
                 // cardCell.cellDelegate= self;
             }
-            [cardEditingCell setFieldTitle:[_cardToView fieldNameAtIndex:indexPath.row-1]];
-            [cardEditingCell setFieldValue:[_cardToView fieldValueAtIndex:indexPath.row-1]];
-            [ cardEditingCell setScrambleImage: [_cardToView  isFieldScrambledAtIndex:indexPath.row] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
+            [cardEditingCell setFieldTitle:[card fieldNameAtIndex:indexPath.row-1]];
+            [cardEditingCell setFieldValue:[card fieldValueAtIndex:indexPath.row-1]];
+            [ cardEditingCell setScrambleImage: [card  isFieldScrambledAtIndex:indexPath.row] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
             cardCell = cardEditingCell;
         }
     }
@@ -223,6 +252,54 @@
        }
     }
     return  cellEditing;
+}
+
+
+#pragma DVCardCellDelegate
+-(void)textFieldCellTextDidChange:(DVCardCell*)cell text:(NSString*)newText
+{
+    NSIndexPath *cellIndex = [mCardInfoView indexPathForCell:cell];
+    [_editableCard setFieldValue:newText atIndex:cellIndex.row];
+}
+
+-(void)textFieldCellDidBeginEditing:(DVCardCell*)cell
+{
+    CGRect cellRect = [mCardInfoView rectForRowAtIndexPath:[mCardInfoView indexPathForCell:cell]];
+    CGRect visibleRect = CGRectMake(0.0, mCardInfoView.contentOffset.y, 320.0, 200.0);
+    
+    if( !CGRectIntersectsRect(visibleRect, cellRect) )
+    {
+        //get the difference between visible rect and the cell rect
+        float diff =  cellRect.origin.y - (visibleRect.origin.y + visibleRect.size.height - cellRect.size.height);
+        CGPoint contentOffset = mCardInfoView.contentOffset;
+        contentOffset.y = contentOffset.y + diff;
+        [mCardInfoView setContentOffset:contentOffset animated:NO];
+    }
+}
+
+-(void)textFieldCellDidTapButton:(DVCardCell*)cell
+{
+    if( mCardInfoView.editing )
+    {
+        NSIndexPath *cellIndex = [mCardInfoView indexPathForCell:cell];
+        BOOL isScrambled = [_editableCard toggleScrambleAtIndex:cellIndex.row];
+        [cell setScrambleImage:  isScrambled ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
+    }
+}
+
+#pragma KeyboardNotification
+- (void)keyboardDidShow:(NSNotification*)notif
+{
+    CGRect tableFrame = mCardInfoView.frame;
+    tableFrame.size.height =200.0;
+    mCardInfoView.frame = tableFrame;
+}
+
+- (void)keyboardDidHide:(NSNotification*)notif
+{
+    CGRect tableFrame = mCardInfoView.frame;
+    tableFrame.size.height =self.view.bounds.size.height ;//nav bar height
+    mCardInfoView.frame = tableFrame;
 }
 
 

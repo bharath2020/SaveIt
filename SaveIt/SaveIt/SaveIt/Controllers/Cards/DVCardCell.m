@@ -9,6 +9,8 @@
 #import "DVCardCell.h"
 
 @implementation DVCardCell
+@synthesize cellDelegate=_cellDelegate;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -17,6 +19,17 @@
         // Initialization code
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    [mFieldValueField setDelegate:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:mFieldValueField];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -45,5 +58,17 @@
 {
     
 }
+
+#pragma UITextFieldCell Delegate
+- (void)textDidChange:(NSNotification*)notif
+{
+    [_cellDelegate textFieldCellTextDidChange:self text:mFieldValueField.text];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [_cellDelegate textFieldCellDidBeginEditing:self];
+}
+
 
 @end
