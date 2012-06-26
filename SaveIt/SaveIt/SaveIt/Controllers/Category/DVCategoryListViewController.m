@@ -36,6 +36,8 @@
 - (void)initialise
 {
     self.title = @"Category";
+    self.tabBarItem.image = [UIImage imageNamed:@"104-index-cards.png"];
+
     [[DVCategoryManager sharedInstance] registerForUpdates:@selector(categoryListUpdated:) target:self];
     _sharedCategoryManager = [DVCategoryManager sharedInstance];
     [_sharedCategoryManager registerForSelectionUpdates:@selector(categorySelectionUpdate:) target:self];
@@ -65,6 +67,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     
    // mEditButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editCategory:)];
     mEditButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActions:)];

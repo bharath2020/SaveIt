@@ -25,6 +25,8 @@
     if (self) {
         // Custom initialization
         self.title = @"Cards";
+        self.tabBarItem.image = [UIImage imageNamed:@"44-shoebox.png"];
+
         _categoryManager = [DVCategoryManager sharedInstance];
 
     }
@@ -44,6 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
     [_categoryManager loadCategories:^(BOOL finished){
         DVCategory *category = [_categoryManager categoryAtIndex:0];

@@ -14,6 +14,10 @@
 		985952A51579302D007FB0BD /* Lock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 985952A41579302D007FB0BD /* Lock_icon.png */; };
 		985952A815794615007FB0BD /* DVInputTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 985952A715794615007FB0BD /* DVInputTextFieldCell.xib */; };
 		985952AA15795936007FB0BD /* unlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 985952A915795936007FB0BD /* unlock.png */; };
+		987BFA791599301900D519A9 /* 44-shoebox.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA781599301900D519A9 /* 44-shoebox.png */; };
+		987BFA7C1599302900D519A9 /* 104-index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA7B1599302900D519A9 /* 104-index-cards.png */; };
+		987BFA7E159932F900D519A9 /* cog_02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA7D159932F900D519A9 /* cog_02@2x.png */; };
+		987BFA801599330700D519A9 /* cog_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA7F1599330700D519A9 /* cog_02.png */; };
 		9899FE8C1593C5D2001D4C62 /* DVCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9899FE8B1593C5D2001D4C62 /* DVCardCell.m */; };
 		9899FE8F1593C5F0001D4C62 /* DVCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9899FE8E1593C5F0001D4C62 /* DVCardCell.xib */; };
 		98A8E49D157573AA003FCCBA /* DVCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */; };
@@ -56,6 +60,10 @@
 		985952A41579302D007FB0BD /* Lock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lock_icon.png; sourceTree = "<group>"; };
 		985952A715794615007FB0BD /* DVInputTextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVInputTextFieldCell.xib; sourceTree = "<group>"; };
 		985952A915795936007FB0BD /* unlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlock.png; sourceTree = "<group>"; };
+		987BFA781599301900D519A9 /* 44-shoebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "44-shoebox.png"; path = "../../44-shoebox.png"; sourceTree = "<group>"; };
+		987BFA7B1599302900D519A9 /* 104-index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "104-index-cards.png"; path = "../../104-index-cards.png"; sourceTree = "<group>"; };
+		987BFA7D159932F900D519A9 /* cog_02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog_02@2x.png"; sourceTree = "<group>"; };
+		987BFA7F1599330700D519A9 /* cog_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog_02.png; sourceTree = "<group>"; };
 		9899FE8A1593C5D2001D4C62 /* DVCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCardCell.h; sourceTree = "<group>"; };
 		9899FE8B1593C5D2001D4C62 /* DVCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCardCell.m; sourceTree = "<group>"; };
 		9899FE8E1593C5F0001D4C62 /* DVCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCardCell.xib; sourceTree = "<group>"; };
@@ -215,9 +223,13 @@
 		FAA1AE431576A226006CB1C2 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				987BFA7F1599330700D519A9 /* cog_02.png */,
 				985952A915795936007FB0BD /* unlock.png */,
 				985952A41579302D007FB0BD /* Lock_icon.png */,
+				987BFA7B1599302900D519A9 /* 104-index-cards.png */,
+				987BFA781599301900D519A9 /* 44-shoebox.png */,
 				FAA1AE441576A245006CB1C2 /* no_cat_image.png */,
+				987BFA7D159932F900D519A9 /* cog_02@2x.png */,
 			);
 			path = image;
 			sourceTree = "<group>";
@@ -389,6 +401,10 @@
 				985952AA15795936007FB0BD /* unlock.png in Resources */,
 				98348D4B1590F0EC0091EB8F /* DVCardCreationController.xib in Resources */,
 				9899FE8F1593C5F0001D4C62 /* DVCardCell.xib in Resources */,
+				987BFA791599301900D519A9 /* 44-shoebox.png in Resources */,
+				987BFA7C1599302900D519A9 /* 104-index-cards.png in Resources */,
+				987BFA7E159932F900D519A9 /* cog_02@2x.png in Resources */,
+				987BFA801599330700D519A9 /* cog_02.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
