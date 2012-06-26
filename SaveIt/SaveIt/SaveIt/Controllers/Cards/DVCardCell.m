@@ -56,7 +56,8 @@
 
 - (IBAction)buttonTap:(id)sender
 {
-    
+    [_cellDelegate textFieldCellDidTapButton:self];   
+
 }
 
 #pragma UITextFieldCell Delegate

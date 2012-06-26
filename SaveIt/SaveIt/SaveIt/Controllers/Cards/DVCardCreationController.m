@@ -9,7 +9,6 @@
 #import "DVCardCreationController.h"
 #import "DVCard.h"
 #import "DVCategory.h"
-#import "DVCardCell.h"
 
 @interface DVCardCreationController ()
 {
@@ -28,6 +27,7 @@
 @implementation DVCardCreationController
 @synthesize cardToView = _cardToView;
 @synthesize editableCard = _editableCard;
+@synthesize creatorDelegate = _creatorDelegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -125,9 +125,9 @@
 {
     if( sender == mDoneButton )
     {
-       //[self extractDataFromUI];
+       [self extractDataFromUI];
         [_cardToView copyFromCard:_editableCard];
-       // [self.creatorDelegate categoryCreation:self didEditCategory:self.category];
+        [self.creatorDelegate cardCreation:self didEditCard:_cardToView];
         [mCardInfoView reloadData];
     }
     [self setEditing:!mCardInfoView.editing animated:YES];
@@ -221,11 +221,11 @@
                 UIViewController *cardCellController = [[UIViewController alloc] init];
                 [cardCellNib instantiateWithOwner:cardCellController options:nil];
                 cardEditingCell =(DVCardCell*) cardCellController.view;
-                // cardCell.cellDelegate= self;
-            }
+             }
+            [cardEditingCell setCellDelegate:self];
             [cardEditingCell setFieldTitle:[card fieldNameAtIndex:indexPath.row-1]];
             [cardEditingCell setFieldValue:[card fieldValueAtIndex:indexPath.row-1]];
-            [ cardEditingCell setScrambleImage: [card  isFieldScrambledAtIndex:indexPath.row] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
+            [ cardEditingCell setScrambleImage: [card  isFieldScrambledAtIndex:indexPath.row-1] ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
             cardCell = cardEditingCell;
         }
     }
@@ -254,12 +254,21 @@
     return  cellEditing;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( tableView.editing && editingStyle == UITableViewCellEditingStyleInsert )
+    {
+        [_editableCard addFieldValue:@"Field" fieldName:@"Field Name" isScramble:NO];
+        [tableView reloadData];
+    }
+}
+
 
 #pragma DVCardCellDelegate
 -(void)textFieldCellTextDidChange:(DVCardCell*)cell text:(NSString*)newText
 {
     NSIndexPath *cellIndex = [mCardInfoView indexPathForCell:cell];
-    [_editableCard setFieldValue:newText atIndex:cellIndex.row];
+    [_editableCard setFieldValue:newText atIndex:cellIndex.row-1];
 }
 
 -(void)textFieldCellDidBeginEditing:(DVCardCell*)cell
@@ -282,7 +291,7 @@
     if( mCardInfoView.editing )
     {
         NSIndexPath *cellIndex = [mCardInfoView indexPathForCell:cell];
-        BOOL isScrambled = [_editableCard toggleScrambleAtIndex:cellIndex.row];
+        BOOL isScrambled = [_editableCard toggleScrambleAtIndex:cellIndex.row-1];
         [cell setScrambleImage:  isScrambled ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
     }
 }

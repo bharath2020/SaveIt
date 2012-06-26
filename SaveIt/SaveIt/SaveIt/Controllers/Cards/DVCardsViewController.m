@@ -87,6 +87,7 @@
     if( !categoryCell )
     {
         categoryCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:categoryCellID];
+        categoryCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     DVCard *card = [mCurrentCategory.cardManager cardAtIndex:indexPath.row];
@@ -99,8 +100,15 @@
 {
     DVCard *card = [mCurrentCategory.cardManager cardAtIndex:indexPath.row];
     DVCardCreationController *cardCreation = [[DVCardCreationController alloc] initWithNibName:@"DVCardCreationController" bundle:nil];
+    [cardCreation setCreatorDelegate:self];
     [self.navigationController pushViewController:cardCreation animated:YES];
     [cardCreation showCardInfo:card];
+}
+
+#pragma DVCardCreationController
+-(void)cardCreation:(DVCardCreationController*)controller didEditCard:(DVCard*)newCard
+{
+    [mCurrentCategory.cardManager saveCard:newCard];
 }
 
 @end

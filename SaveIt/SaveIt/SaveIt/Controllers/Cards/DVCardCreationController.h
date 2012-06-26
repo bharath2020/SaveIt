@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DVCardCell.h"
 @class DVCategory;
 @class DVCard;
+@class DVCardCreationController;
 
-@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@protocol DVCardCreationDelegate <NSObject>
+
+-(void)cardCreation:(DVCardCreationController*)controller didEditCard:(DVCard*)newCard;
+
+@end
+
+@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate>
 {
     IBOutlet UITableView *mCardInfoView;
     IBOutlet UIImageView *mCardIconView;
@@ -22,9 +29,10 @@
     UIBarButtonItem *mEditButton;
     UIBarButtonItem *mDoneButton;
     UIBarButtonItem *mCancelButton;
-
+    __unsafe_unretained id<DVCardCreationDelegate> _creatorDelegate;
     
 }
+@property(nonatomic, unsafe_unretained)id<DVCardCreationDelegate> creatorDelegate;
 
 
 - (void)createCardForCategory:(DVCategory*)parentCategory;

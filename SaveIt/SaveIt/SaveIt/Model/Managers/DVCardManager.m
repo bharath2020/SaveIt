@@ -167,7 +167,7 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
         FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
         [dbQueue inTransaction:^(FMDatabase *db, BOOL *reverse){
             
-            NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO CARD(%@, %@, %@, %@, %@, %@, %@, %@, %@, %@) VALUES('%@', '%u', '%@', '%@', '%@', '%@', '%@', '%d', '%f' )",CARD_ID, CARD_TITLE , CARD_CATEGORY_ID, CARD_ICON_NAME, CARD_FIELD_NAME,CARD_FIELD_SCRAMBLE, CARD_FIELD_VALUES, CARD_NOTE, CARD_IS_FAVORITE,  CARD_LAST_MODIFIED , cardToSave.cardID, cardToSave.title, cardToSave.category.categoryID,  [cardToSave iconName], [cardToSave fieldNameString],   [cardToSave  scrambleString], [cardToSave fieldValueString], cardToSave.note, cardToSave.isFavorite, cardToSave.lastModifiedInterval ];
+            NSString *query = [NSString stringWithFormat:@"INSERT OR REPLACE INTO CARD(%@, %@, %@, %@, %@, %@, %@, %@, %@, %@) VALUES(%u, '%@', '%u', '%@', '%@', '%@', '%@', '%@', '%d', '%f' )",CARD_ID, CARD_TITLE , CARD_CATEGORY_ID, CARD_ICON_NAME, CARD_FIELD_NAME,CARD_FIELD_SCRAMBLE, CARD_FIELD_VALUES, CARD_NOTE, CARD_IS_FAVORITE,  CARD_LAST_MODIFIED , cardToSave.cardID, cardToSave.title, cardToSave.category.categoryID,  [cardToSave iconName], [cardToSave fieldNameString],   [cardToSave  scrambleString], [cardToSave fieldValueString], cardToSave.note, cardToSave.isFavorite, cardToSave.lastModifiedInterval ];
             BOOL status = [db executeUpdate:query];
             if( status )
             {

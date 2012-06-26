@@ -8,16 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "DVCategory.h"
+#import "DVCardCreationController.h"
 
 @class DVCategoryManager;
-@interface DVCardsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface DVCardsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,DVCardCreationDelegate>
 {
     IBOutlet UITableView *mCardsListView;
     
     DVCategoryManager *_categoryManager;
     DVCategory *mCurrentCategory;
-    
-    
 }
 
 
