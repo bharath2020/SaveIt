@@ -53,6 +53,7 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
     newCategory.categoryID = self.categoryID;
     newCategory.iconName = self.iconName;
     newCategory.lasteModifiedInterval = self.lasteModifiedInterval;
+    newCategory.categoryName = self.categoryName;
     if( self->mFieldNames )
     {
         for( NSDictionary *dict in self->mFieldNames )

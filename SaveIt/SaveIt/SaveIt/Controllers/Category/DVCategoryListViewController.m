@@ -81,13 +81,14 @@
     
     mCategoryGridView = [[DTGridView alloc] initWithFrame:self.view.bounds];
     self.categoryGridView.autoresizingMask = self.view.autoresizingMask;
-    [self.view addSubview:mCategoryGridView];
     mCategoryGridView.delegate = self;
     mCategoryGridView.dataSource = self;
     mCategoryGridView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
     float cellOffset = (self.view.frame.size.width - (CELL_WIDTH * TOTAL_COLUMNS))/ (TOTAL_COLUMNS+1);
     mCategoryGridView.cellOffset = CGPointMake(cellOffset , cellOffset);
     mCategoryGridView.initialYOffset = 10.0;
+    [self.view addSubview:mCategoryGridView];
+
     [self.view bringSubviewToFront:mEditToolBar];
     [self setEditing:NO animated:NO];
 

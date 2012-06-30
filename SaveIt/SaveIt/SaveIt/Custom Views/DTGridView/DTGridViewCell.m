@@ -22,6 +22,7 @@
 @synthesize xPosition, yPosition, identifier, delegate, selected;
 @synthesize highlighted, titleLabel = mTitleLabel, imageView;
 @synthesize tick = _tick;
+@synthesize gridCellType = _gridCellType;
 
 @dynamic frame;
 
@@ -42,6 +43,7 @@
     mTitleLabel.backgroundColor = [UIColor clearColor];
     mTitleLabel.shadowColor = [UIColor whiteColor];
     mTitleLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+    self.gridCellType = eGridCellImageAndTextType;
 //    self.layer.borderWidth = 1.0;
 //    self.layer.borderColor = [UIColor grayColor].CGColor;
 	return self;
@@ -57,11 +59,16 @@
 -(void)layoutSubviews
 {
     [super layoutSubviews];
-    CGRect imageRect , labelRect;
-     CGRectDivide(self.bounds, &labelRect, &imageRect, 24.0, CGRectMaxYEdge);
+    CGRect imageRect , labelRect = CGRectZero;
+    if( eGridCellImageAndTextType == _gridCellType  )
+    {
+        CGRectDivide(self.bounds, &labelRect, &imageRect, 24.0, CGRectMaxYEdge);
+    }
+    else {
+        imageRect =self.bounds;
+    }
     imageView.frame = imageRect;
     mTitleLabel.frame = labelRect;
-    
 }
 
 - (void)awakeFromNib {

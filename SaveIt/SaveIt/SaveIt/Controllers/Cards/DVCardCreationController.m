@@ -138,6 +138,15 @@
     [self setEditing:NO animated:YES];
 }
 
+- (IBAction)editImage:(id)sender
+{
+    DVIconPickerController *iconPicker = [[DVIconPickerController alloc] initWithNibName:@"DVIconPickerController" bundle:nil];
+    iconPicker.pickerDelegate = self;
+    [self.navigationController pushViewController:iconPicker animated:YES];
+    [iconPicker showImages];
+}
+
+#pragma Card Editing
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
@@ -222,6 +231,7 @@
                 [cardCellNib instantiateWithOwner:cardCellController options:nil];
                 cardEditingCell =(DVCardCell*) cardCellController.view;
              }
+            cardEditingCell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             [cardEditingCell setCellDelegate:self];
             [cardEditingCell setFieldTitle:[card fieldNameAtIndex:indexPath.row-1]];
             [cardEditingCell setFieldValue:[card fieldValueAtIndex:indexPath.row-1]];
@@ -309,6 +319,13 @@
     CGRect tableFrame = mCardInfoView.frame;
     tableFrame.size.height =self.view.bounds.size.height ;//nav bar height
     mCardInfoView.frame = tableFrame;
+}
+
+#pragma Icon Pickup
+- (void)iconPicker:(DVIconPickerController *)picker didSelectImage:(UIImage *)image withName:(NSString *)imageName
+{
+    [_editableCard setIconName:imageName];
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 

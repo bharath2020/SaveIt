@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DVCardCell.h"
+#import "DVIconPickerController.h"
+
 @class DVCategory;
 @class DVCard;
 @class DVCardCreationController;
@@ -18,7 +20,7 @@
 
 @end
 
-@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate>
+@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate,DVIconPickerDelegate>
 {
     IBOutlet UITableView *mCardInfoView;
     IBOutlet UIImageView *mCardIconView;
@@ -34,7 +36,7 @@
 }
 @property(nonatomic, unsafe_unretained)id<DVCardCreationDelegate> creatorDelegate;
 
-
+- (IBAction)editImage:(id)sender;
 - (void)createCardForCategory:(DVCategory*)parentCategory;
 - (void)showCardInfo:(DVCard*)card;
 

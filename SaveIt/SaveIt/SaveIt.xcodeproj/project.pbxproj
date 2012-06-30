@@ -20,11 +20,16 @@
 		987BFA801599330700D519A9 /* cog_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA7F1599330700D519A9 /* cog_02.png */; };
 		9899FE8C1593C5D2001D4C62 /* DVCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9899FE8B1593C5D2001D4C62 /* DVCardCell.m */; };
 		9899FE8F1593C5F0001D4C62 /* DVCardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9899FE8E1593C5F0001D4C62 /* DVCardCell.xib */; };
+		989F4B3E159A35B0006DB9E9 /* JMImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 989F4B3D159A35B0006DB9E9 /* JMImageCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		989F4B42159A482C006DB9E9 /* DVImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 989F4B41159A482C006DB9E9 /* DVImageManager.m */; };
+		989F4B47159A5860006DB9E9 /* DVIconPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 989F4B45159A5860006DB9E9 /* DVIconPickerController.m */; };
+		989F4B48159A5860006DB9E9 /* DVIconPickerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 989F4B46159A5860006DB9E9 /* DVIconPickerController.xib */; };
 		98A8E49D157573AA003FCCBA /* DVCategoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */; };
 		98A8E49E157573AA003FCCBA /* DVCategoryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */; };
 		98A8E4A315757433003FCCBA /* DVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E4A115757433003FCCBA /* DVCardsViewController.m */; };
 		98A8E4A415757433003FCCBA /* DVCardsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98A8E4A215757433003FCCBA /* DVCardsViewController.xib */; };
 		98A8E4A8157589FA003FCCBA /* UIImage+Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 98A8E4A7157589FA003FCCBA /* UIImage+Loader.m */; };
+		98D1E429159E7182009FBB66 /* NSString+UDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 98D1E428159E7182009FBB66 /* NSString+UDID.m */; };
 		98FB4C46157820AB0030A68E /* DVCategoryCreationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FB4C44157820AB0030A68E /* DVCategoryCreationController.m */; };
 		98FB4C47157820AB0030A68E /* DVCategoryCreationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98FB4C45157820AB0030A68E /* DVCategoryCreationController.xib */; };
 		98FB4C4A1578222C0030A68E /* DVInputTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 98FB4C491578222C0030A68E /* DVInputTextFieldCell.m */; };
@@ -67,6 +72,13 @@
 		9899FE8A1593C5D2001D4C62 /* DVCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCardCell.h; sourceTree = "<group>"; };
 		9899FE8B1593C5D2001D4C62 /* DVCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCardCell.m; sourceTree = "<group>"; };
 		9899FE8E1593C5F0001D4C62 /* DVCardCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCardCell.xib; sourceTree = "<group>"; };
+		989F4B3C159A35B0006DB9E9 /* JMImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JMImageCache.h; sourceTree = "<group>"; };
+		989F4B3D159A35B0006DB9E9 /* JMImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JMImageCache.m; sourceTree = "<group>"; };
+		989F4B40159A482C006DB9E9 /* DVImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVImageManager.h; sourceTree = "<group>"; };
+		989F4B41159A482C006DB9E9 /* DVImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVImageManager.m; sourceTree = "<group>"; };
+		989F4B44159A5860006DB9E9 /* DVIconPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVIconPickerController.h; sourceTree = "<group>"; };
+		989F4B45159A5860006DB9E9 /* DVIconPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVIconPickerController.m; sourceTree = "<group>"; };
+		989F4B46159A5860006DB9E9 /* DVIconPickerController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVIconPickerController.xib; sourceTree = "<group>"; };
 		98A8E49A157573AA003FCCBA /* DVCategoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategoryListViewController.h; sourceTree = "<group>"; };
 		98A8E49B157573AA003FCCBA /* DVCategoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCategoryListViewController.m; sourceTree = "<group>"; };
 		98A8E49C157573AA003FCCBA /* DVCategoryListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCategoryListViewController.xib; sourceTree = "<group>"; };
@@ -75,6 +87,8 @@
 		98A8E4A215757433003FCCBA /* DVCardsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCardsViewController.xib; sourceTree = "<group>"; };
 		98A8E4A6157589FA003FCCBA /* UIImage+Loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Loader.h"; sourceTree = "<group>"; };
 		98A8E4A7157589FA003FCCBA /* UIImage+Loader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Loader.m"; sourceTree = "<group>"; };
+		98D1E427159E7182009FBB66 /* NSString+UDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UDID.h"; sourceTree = "<group>"; };
+		98D1E428159E7182009FBB66 /* NSString+UDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UDID.m"; sourceTree = "<group>"; };
 		98FB4C43157820AB0030A68E /* DVCategoryCreationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVCategoryCreationController.h; sourceTree = "<group>"; };
 		98FB4C44157820AB0030A68E /* DVCategoryCreationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVCategoryCreationController.m; sourceTree = "<group>"; };
 		98FB4C45157820AB0030A68E /* DVCategoryCreationController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVCategoryCreationController.xib; sourceTree = "<group>"; };
@@ -132,9 +146,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		989F4B3B159A35B0006DB9E9 /* ImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				989F4B3C159A35B0006DB9E9 /* JMImageCache.h */,
+				989F4B3D159A35B0006DB9E9 /* JMImageCache.m */,
+			);
+			path = ImageCache;
+			sourceTree = "<group>";
+		};
+		989F4B43159A5841006DB9E9 /* ImagesSelection */ = {
+			isa = PBXGroup;
+			children = (
+				989F4B44159A5860006DB9E9 /* DVIconPickerController.h */,
+				989F4B45159A5860006DB9E9 /* DVIconPickerController.m */,
+				989F4B46159A5860006DB9E9 /* DVIconPickerController.xib */,
+			);
+			path = ImagesSelection;
+			sourceTree = "<group>";
+		};
 		98A8E49215756FE5003FCCBA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				989F4B43159A5841006DB9E9 /* ImagesSelection */,
 				98A8E49F157573BE003FCCBA /* Cards */,
 				98A8E499157573AA003FCCBA /* Category */,
 			);
@@ -171,6 +205,8 @@
 		98A8E4A5157589CE003FCCBA /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				989F4B40159A482C006DB9E9 /* DVImageManager.h */,
+				989F4B41159A482C006DB9E9 /* DVImageManager.m */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -257,10 +293,13 @@
 		FAB085D61564D2BA00A4A419 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				989F4B3B159A35B0006DB9E9 /* ImageCache */,
 				FAB085D81564D2C800A4A419 /* DVUtilities.h */,
 				FAB085D91564D2C800A4A419 /* DVUtilities.m */,
 				98A8E4A6157589FA003FCCBA /* UIImage+Loader.h */,
 				98A8E4A7157589FA003FCCBA /* UIImage+Loader.m */,
+				98D1E427159E7182009FBB66 /* NSString+UDID.h */,
+				98D1E428159E7182009FBB66 /* NSString+UDID.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -405,6 +444,7 @@
 				987BFA7C1599302900D519A9 /* 104-index-cards.png in Resources */,
 				987BFA7E159932F900D519A9 /* cog_02@2x.png in Resources */,
 				987BFA801599330700D519A9 /* cog_02.png in Resources */,
+				989F4B48159A5860006DB9E9 /* DVIconPickerController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +473,10 @@
 				98FB4C4A1578222C0030A68E /* DVInputTextFieldCell.m in Sources */,
 				98348D4A1590F0EC0091EB8F /* DVCardCreationController.m in Sources */,
 				9899FE8C1593C5D2001D4C62 /* DVCardCell.m in Sources */,
+				989F4B3E159A35B0006DB9E9 /* JMImageCache.m in Sources */,
+				989F4B42159A482C006DB9E9 /* DVImageManager.m in Sources */,
+				989F4B47159A5860006DB9E9 /* DVIconPickerController.m in Sources */,
+				98D1E429159E7182009FBB66 /* NSString+UDID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,4 +12,8 @@
 +(NSString *)getDocumentsDirectory;
 +(void)moveIconsDirectory;
 +(NSString *)getIconsDirectory;
+
++ (void)showCameraInViewController:(UIViewController*)viewController;
++ (void)showPhotoLibrary:(UIViewController*)viewController;
++ (void)saveIconFromImage:(UIImage*)image completionBlock:(void (^)(BOOL success, NSString* newFileName))completed;
 @end

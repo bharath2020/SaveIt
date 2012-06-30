@@ -46,6 +46,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = @"Category Info";
     mCategoryListView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
     mEditableHeaderView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
     mNormalHeaderView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
@@ -68,6 +69,8 @@
    // self.mCategoryDescriptionField=nil;
    // self.mTitleLabel = nil;
    // self.mIconImageView = nil;
+    mDoneButton=nil;
+    mCategoryListView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -107,14 +110,12 @@
 
 - (void)updateDisplay
 {
-    //set the image
-//    mIconImageView.image = [mCategory icon];
-//    mTitleLabel.text = mCategory.categoryName;
+    DVCategory *category = self.editing ? mEditableCategory : mCategory;
     UIView *tableHeaderView = mCategoryListView.tableHeaderView;
     UIImageView *imageView = (UIImageView*)[tableHeaderView viewWithTag:899];
-    imageView.image = [mCategory icon];
+    imageView.image = [category icon];
     UILabel *titleLabel = (UILabel*)[tableHeaderView viewWithTag:799];
-    titleLabel.text = mCategory.categoryName;
+    titleLabel.text = category.categoryName;
 }
 
 - (void)extractDataFromUI
@@ -142,9 +143,18 @@
     [mCategoryListView reloadData];
 }
 
+- (IBAction)editImage:(id)sender
+{
+    DVIconPickerController *iconPicker = [[DVIconPickerController alloc] initWithNibName:@"DVIconPickerController" bundle:nil];
+    iconPicker.pickerDelegate = self;
+    [self.navigationController pushViewController:iconPicker animated:YES];
+    [iconPicker showImages];
+}
+
 #pragma Table Editing
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
+    [super setEditing:editing animated:animated];
     if( editing )
     {
         self.editableCategory = [mCategory copy];    
@@ -171,7 +181,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DVCategory *category = mCategory;
-    NSLog(@"%@", [mCategory fieldValueAtIndex:1]);
     if( tableView.editing )
     {
         category = mEditableCategory;
@@ -276,7 +285,6 @@
         NSIndexPath *cellIndex = [mCategoryListView indexPathForCell:cell];
         BOOL isScrambled = [mEditableCategory toggleScrambleAtIndex:cellIndex.row];
         cell.mImageView.image = isScrambled ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"];
-
     }
 }
 
@@ -293,6 +301,13 @@
     CGRect tableFrame = mCategoryListView.frame;
     tableFrame.size.height =self.view.bounds.size.height ;//nav bar height
     mCategoryListView.frame = tableFrame;
+}
+
+#pragma DVIconPickerDelegate
+- (void)iconPicker:(DVIconPickerController *)picker didSelectImage:(UIImage *)image withName:(NSString *)imageName
+{
+    [mEditableCategory setIconName:imageName];
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DVCategory.h"
 #import "DVInputTextFieldCell.h"
+#import "DVIconPickerController.h"
 
 @class DVCategoryCreationController;
 
@@ -24,7 +25,7 @@ typedef enum _CategoryControllerType
 
 @end
 
-@interface DVCategoryCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate, DVInputTextFieldCellDelegate>
+@interface DVCategoryCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate, DVInputTextFieldCellDelegate,DVIconPickerDelegate>
 {
     IBOutlet UITableView *mCategoryListView;
     IBOutlet UIImageView *mIconImageView;
@@ -46,6 +47,8 @@ typedef enum _CategoryControllerType
 @property(nonatomic, strong)UIView *mEditableHeaderView;
 @property(nonatomic, strong)UIView *mNormalHeaderView;
 @property(nonatomic, unsafe_unretained)id creatorDelegate;
+
+- (IBAction)editImage:(id)sender;
 
 -(void)showDetailsOfCategory:(DVCategory*)category;
 @end

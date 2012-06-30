@@ -11,6 +11,12 @@
 
 @protocol DTGridViewCellDelegate;
 
+typedef enum _GridCellType
+{
+    eGridCellImageAndTextType,
+    eGridCellImageType
+}EGridCellType;
+
 /*!
  @class DTGridViewCell
  @abstract 
@@ -28,6 +34,7 @@
     
     UIImageView *imageView;
     UILabel *mTitleLabel;
+    EGridCellType _gridCellType;
 	
 }
 @property (nonatomic, assign) id delegate;
@@ -37,6 +44,8 @@
 @property (nonatomic, assign) BOOL tick;
 @property (nonatomic, retain) UIImageView *imageView;
 @property (nonatomic, retain) UILabel *titleLabel;
+@property (nonatomic, assign) EGridCellType gridCellType;
+
 - (id)initWithReuseIdentifier:(NSString *)identifier;
 - (void)prepareForReuse;
 @end
