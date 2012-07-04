@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DVCardCell.h"
 #import "DVIconPickerController.h"
+#import "DVFieldEditorController.h"
 
 @class DVCategory;
 @class DVCard;
@@ -20,7 +21,7 @@
 
 @end
 
-@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate,DVIconPickerDelegate>
+@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate,DVIconPickerDelegate,DVFieldEditorProtocol>
 {
     IBOutlet UITableView *mCardInfoView;
     IBOutlet UIImageView *mCardIconView;

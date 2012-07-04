@@ -14,6 +14,8 @@
 		985952A51579302D007FB0BD /* Lock_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 985952A41579302D007FB0BD /* Lock_icon.png */; };
 		985952A815794615007FB0BD /* DVInputTextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 985952A715794615007FB0BD /* DVInputTextFieldCell.xib */; };
 		985952AA15795936007FB0BD /* unlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 985952A915795936007FB0BD /* unlock.png */; };
+		9870CD0F15A3913A00065909 /* DVFieldEditorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9870CD0D15A3913A00065909 /* DVFieldEditorController.m */; };
+		9870CD1015A3913A00065909 /* DVFieldEditorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9870CD0E15A3913A00065909 /* DVFieldEditorController.xib */; };
 		987BFA791599301900D519A9 /* 44-shoebox.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA781599301900D519A9 /* 44-shoebox.png */; };
 		987BFA7C1599302900D519A9 /* 104-index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA7B1599302900D519A9 /* 104-index-cards.png */; };
 		987BFA7E159932F900D519A9 /* cog_02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 987BFA7D159932F900D519A9 /* cog_02@2x.png */; };
@@ -65,6 +67,9 @@
 		985952A41579302D007FB0BD /* Lock_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lock_icon.png; sourceTree = "<group>"; };
 		985952A715794615007FB0BD /* DVInputTextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVInputTextFieldCell.xib; sourceTree = "<group>"; };
 		985952A915795936007FB0BD /* unlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unlock.png; sourceTree = "<group>"; };
+		9870CD0C15A3913A00065909 /* DVFieldEditorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DVFieldEditorController.h; sourceTree = "<group>"; };
+		9870CD0D15A3913A00065909 /* DVFieldEditorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DVFieldEditorController.m; sourceTree = "<group>"; };
+		9870CD0E15A3913A00065909 /* DVFieldEditorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DVFieldEditorController.xib; sourceTree = "<group>"; };
 		987BFA781599301900D519A9 /* 44-shoebox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "44-shoebox.png"; path = "../../44-shoebox.png"; sourceTree = "<group>"; };
 		987BFA7B1599302900D519A9 /* 104-index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "104-index-cards.png"; path = "../../104-index-cards.png"; sourceTree = "<group>"; };
 		987BFA7D159932F900D519A9 /* cog_02@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cog_02@2x.png"; sourceTree = "<group>"; };
@@ -146,6 +151,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		98167C1415A2248B004CC15A /* Field Editor */ = {
+			isa = PBXGroup;
+			children = (
+				9870CD0C15A3913A00065909 /* DVFieldEditorController.h */,
+				9870CD0D15A3913A00065909 /* DVFieldEditorController.m */,
+				9870CD0E15A3913A00065909 /* DVFieldEditorController.xib */,
+			);
+			path = "Field Editor";
+			sourceTree = "<group>";
+		};
 		989F4B3B159A35B0006DB9E9 /* ImageCache */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +183,7 @@
 		98A8E49215756FE5003FCCBA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				98167C1415A2248B004CC15A /* Field Editor */,
 				989F4B43159A5841006DB9E9 /* ImagesSelection */,
 				98A8E49F157573BE003FCCBA /* Cards */,
 				98A8E499157573AA003FCCBA /* Category */,
@@ -445,6 +461,7 @@
 				987BFA7E159932F900D519A9 /* cog_02@2x.png in Resources */,
 				987BFA801599330700D519A9 /* cog_02.png in Resources */,
 				989F4B48159A5860006DB9E9 /* DVIconPickerController.xib in Resources */,
+				9870CD1015A3913A00065909 /* DVFieldEditorController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +494,7 @@
 				989F4B42159A482C006DB9E9 /* DVImageManager.m in Sources */,
 				989F4B47159A5860006DB9E9 /* DVIconPickerController.m in Sources */,
 				98D1E429159E7182009FBB66 /* NSString+UDID.m in Sources */,
+				9870CD0F15A3913A00065909 /* DVFieldEditorController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

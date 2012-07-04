@@ -16,4 +16,5 @@
 + (void)showCameraInViewController:(UIViewController*)viewController;
 + (void)showPhotoLibrary:(UIViewController*)viewController;
 + (void)saveIconFromImage:(UIImage*)image completionBlock:(void (^)(BOOL success, NSString* newFileName))completed;
++ (CGSize)aspectRatioSizeForPhotoWithSize:(CGSize)inSize toDestinationSize:(CGSize)inDestSize;
 @end

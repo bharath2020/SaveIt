@@ -94,7 +94,8 @@
 #pragma DTGridView Protocol
 - (NSInteger)numberOfRowsInGridView:(DTGridView *)gridView
 {
-    return [_sharedImageManager totalImages];
+    NSUInteger totalImages =  ([_sharedImageManager totalImages] );
+    return totalImages > 0 ? (totalImages / TOTAL_IMAGE_COLUMNS) + 1 : 0;
 }
 /*!
  @abstract Asks the data source to return the number of columns for the given row in the grid view.
@@ -194,7 +195,7 @@
     __weak UIViewController *controller = self;
     [_sharedImageManager addImage:selectedImage completionBlock:^(BOOL complete){
         [controller dismissModalViewControllerAnimated:YES];
-        [gridView performSelector:@selector(reloadData) withObject:nil afterDelay:1.0];
+        [gridView reloadData];
     }];
 }
 

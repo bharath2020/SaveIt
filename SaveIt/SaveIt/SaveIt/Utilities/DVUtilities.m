@@ -60,16 +60,47 @@
         [viewController presentModalViewController:imagePicker animated:YES];
 }
 
+const float icon_universal_size = 60.0f;
 + (void)saveIconFromImage:(UIImage*)image completionBlock:(void (^)(BOOL success, NSString* newFileName))completed
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *uuid = [NSString uuid];
-        NSString *absPath = [[[self getIconsDirectory] stringByAppendingPathComponent:uuid] stringByAppendingPathExtension:@"png"];
-        BOOL success = [UIImagePNGRepresentation(image) writeToFile:absPath atomically:YES];
+        NSString *uuid = [[NSString uuid] stringByAppendingPathExtension:@"png"];
+        NSString *absPath = [[self getIconsDirectory] stringByAppendingPathComponent:uuid];
+        UIGraphicsBeginImageContext(CGSizeMake(icon_universal_size, icon_universal_size));
+        CGSize aspectSize = [self aspectRatioSizeForPhotoWithSize:image.size toDestinationSize:CGSizeMake(icon_universal_size, icon_universal_size)];
+        CGAffineTransform transform = CGAffineTransformMakeScale(1.0, -1.0);
+        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, icon_universal_size));
+        CGContextConcatCTM(UIGraphicsGetCurrentContext(), transform);
+        CGContextDrawImage(UIGraphicsGetCurrentContext(), CGRectMake(0.0, 0.0, aspectSize.width, aspectSize.height), image.CGImage);
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        BOOL success = [UIImagePNGRepresentation(newImage) writeToFile:absPath atomically:YES];
         dispatch_async(dispatch_get_main_queue(), ^{
             completed(success, uuid);
         });
     });
+}
+
++ (CGSize)aspectRatioSizeForPhotoWithSize:(CGSize)inSize toDestinationSize:(CGSize)inDestSize
+{
+	int width = inSize.width;
+	int height = inSize.height;
+	
+	int newWidth, newHeight;
+	
+	int destWidth = inDestSize.width;
+	int destHeight = inDestSize.height;
+	
+	if(width < height)
+    {
+		newWidth = destWidth;
+		newHeight = height * destWidth / width;
+    } 
+	else 
+    {
+		newHeight = destHeight;
+		newWidth = width * destHeight / height;
+    }
+	return CGSizeMake(newWidth, newHeight);
 }
 
 @end

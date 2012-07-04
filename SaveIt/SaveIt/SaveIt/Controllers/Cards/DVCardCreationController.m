@@ -9,11 +9,13 @@
 #import "DVCardCreationController.h"
 #import "DVCard.h"
 #import "DVCategory.h"
+#import "DVFieldEditorController.h"
 
 @interface DVCardCreationController ()
 {
     DVCard *_cardToView;
     DVCard *_editableCard;
+    NSIndexPath *_selectedIndexPath;
 }
 @property(nonatomic, strong) DVCard *cardToView;
 @property(nonatomic, strong) DVCard *editableCard;
@@ -273,6 +275,15 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    _selectedIndexPath = indexPath;
+    DVFieldEditorController *fieldEditor = [[DVFieldEditorController alloc] initWithNibName:@"DVFieldEditorController" bundle:nil];
+    fieldEditor.fieldEditorDelegate = self;
+    [self.navigationController pushViewController:fieldEditor animated:YES];
+    [fieldEditor editWithFieldName:[_editableCard fieldNameAtIndex:indexPath.row-1] fieldValue:[_editableCard fieldValueAtIndex:indexPath.row-1] scramble:[_editableCard isFieldScrambledAtIndex:indexPath.row-1]];
+}
+
 
 #pragma DVCardCellDelegate
 -(void)textFieldCellTextDidChange:(DVCardCell*)cell text:(NSString*)newText
@@ -325,6 +336,20 @@
 - (void)iconPicker:(DVIconPickerController *)picker didSelectImage:(UIImage *)image withName:(NSString *)imageName
 {
     [_editableCard setIconName:imageName];
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+#pragma DVFieldEditorDelegate
+- (void)fieldEditor:(DVFieldEditorController*)controller didEditFieldName:(NSString*)fieldName fieldValue:(NSString *)fieldValue scramble:(BOOL)scramble
+{
+    [_editableCard setFieldValue:fieldValue atIndex:_selectedIndexPath.row-1];
+    [_editableCard setScramble:scramble atIndex:_selectedIndexPath.row -1];
+    [_editableCard setFieldName:fieldName atIndex:_selectedIndexPath.row-1];
+    [self.navigationController popToViewController:self animated:YES];
+}
+
+- (void)fieldEditorDidCancel:(DVFieldEditorController*)controller
+{
     [self.navigationController popToViewController:self animated:YES];
 }
 
