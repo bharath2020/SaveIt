@@ -55,6 +55,10 @@
             [mCardsListView reloadData]; 
         }];
     }];
+    mCardsListView.rowHeight = 60.0;
+    
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewCard:)];
+    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 - (void)viewDidUnload
@@ -75,6 +79,17 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma Action
+- (void)addNewCard:(id)sender
+{
+    DVCardCreationController *cardCreation = [[DVCardCreationController alloc] initWithNibName:@"DVCardCreationController" bundle:nil];
+    cardCreation.cardCreationType = eCreateNewCardMode;
+    [cardCreation setCreatorDelegate:self];
+    [self.navigationController pushViewController:cardCreation animated:YES];
+    
+    [cardCreation showCardInfo:[DVCard cardFromCategory:mCurrentCategory]];
 }
 
 #pragma UITableView Data Source
@@ -114,7 +129,22 @@
 #pragma DVCardCreationController
 -(void)cardCreation:(DVCardCreationController*)controller didEditCard:(DVCard*)newCard
 {
-    [mCurrentCategory.cardManager saveCard:newCard];
+    if( controller.cardCreationType == eCreateNewCardMode )
+    {
+        [mCurrentCategory.cardManager addCard:newCard];
+        [self.navigationController popToViewController:self animated:YES];
+    }
+    else {
+        [mCurrentCategory.cardManager saveCard:newCard];
+    }
+}
+
+-(void)cardCreationDidCancel:(DVCardCreationController *)controller
+{
+    if( controller.cardCreationType == eCreateNewCardMode )
+    {
+        [self.navigationController popToViewController:self animated:YES];
+    }
 }
 
 @end

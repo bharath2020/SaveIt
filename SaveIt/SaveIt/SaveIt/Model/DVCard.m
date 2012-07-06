@@ -48,6 +48,7 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     if( self )
     {
         mFields = [[NSMutableArray alloc] init];
+        self.cardID = NSUIntegerMax;
     }
     return self;
 }
@@ -167,6 +168,14 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     return isScrambled;
 }
 
+-(void)setScramble:(BOOL)scrambleValue atIndex:(NSUInteger)index
+{
+    if( index < [mFields count] )
+    {
+        [[mFields objectAtIndex:index] setObject:(scrambleValue ? @"1" : @"0")  forKey:CARD_FIELD_SCRAMBLE];
+    }
+}
+
 -(void)addFieldValue:(NSString*)fieldValue fieldName:(NSString*)fieldName isScramble:(BOOL)scramble
 {
     [mFields addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fieldName, CARD_FIELD_NAME,fieldValue, CARD_FIELD_VALUE,  [NSNumber numberWithBool:scramble], CARD_FIELD_SCRAMBLE, nil]];    
@@ -178,6 +187,15 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     {
         [mFields removeObjectAtIndex:fieldIndex];   
     }
+}
+
+-(void)setFieldName:(NSString *)newName atIndex:(NSUInteger)index
+{
+    if( index < [mFields count] && newName)
+    {
+        [[mFields objectAtIndex:index] setObject:newName forKey:CARD_FIELD_NAME];
+    }
+
 }
 
 -(void)setFieldValue:(NSString*)newValue atIndex:(NSUInteger)index
@@ -228,6 +246,12 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     return  icon!= nil ? icon : [UIImage imageNamed:@"no_cat_image.png"];
 }
 
+- (void)setNote:(NSString *)note
+{
+    mNote = note;
+    NSLog(@"New %@", note);
+}
+
 -(void)loadDetails
 {
     FMDatabaseQueue *dbQueue = [DVHelper databaseQueue];
@@ -274,8 +298,10 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     DVCard *card  = [[DVCard alloc] init];
     for( NSUInteger fieldIndex = 0 ; fieldIndex < [category totalFieldNames]; fieldIndex++ )
     {
-        [card addFieldValue:[category fieldValueAtIndex:fieldIndex] fieldName:[category fieldNameAtIndex:fieldIndex] isScramble:[category isFieldScrambledAtIndex:fieldIndex]];
+        [card addFieldValue:@"" fieldName:[category fieldValueAtIndex:fieldIndex] isScramble:[category isFieldScrambledAtIndex:fieldIndex]];
     }
+    card.iconName = category.iconName;
+    
     card.category = category;
     return  card;
 }

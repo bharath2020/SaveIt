@@ -90,6 +90,7 @@ NSString * DVCardsUpdateNotificationEvent = @"cards_update";
             [card setFieldNames:fieldNames scramble:scramble fieldValues:fieldValues];
             card.isFavorite = [result boolForColumn:CARD_IS_FAVORITE];
             card.lastModifiedInterval = [result doubleForColumn:CARD_LAST_MODIFIED];
+            card.note = [result stringForColumn:CARD_NOTE];
             
             
              NSUInteger categoryID = [result unsignedLongLongIntForColumn:CARD_CATEGORY_ID];

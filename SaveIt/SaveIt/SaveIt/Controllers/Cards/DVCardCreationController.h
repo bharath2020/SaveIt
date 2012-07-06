@@ -15,9 +15,16 @@
 @class DVCard;
 @class DVCardCreationController;
 
+typedef enum _CardCreation
+{
+    eEditCardMode,
+    eCreateNewCardMode
+}ECardCreationType;
+
 @protocol DVCardCreationDelegate <NSObject>
 
 -(void)cardCreation:(DVCardCreationController*)controller didEditCard:(DVCard*)newCard;
+-(void)cardCreationDidCancel:(DVCardCreationController*)controller;
 
 @end
 
@@ -28,14 +35,21 @@
     IBOutlet UILabel *mCardTitleView;
     IBOutlet UIView *mEditableHeaderView;
     IBOutlet UIView *mNormalHeaderView;
+    IBOutlet UITextView *mNotesTextView;
+    IBOutlet UILabel *mNotesLabelView;
+    IBOutlet UIView *mEditableFooterView;
+    IBOutlet UIView *mNormalFooterView;
+    IBOutlet UIView *mFooterTitleView;
     
     UIBarButtonItem *mEditButton;
     UIBarButtonItem *mDoneButton;
     UIBarButtonItem *mCancelButton;
     __unsafe_unretained id<DVCardCreationDelegate> _creatorDelegate;
+    ECardCreationType _cardCreationType;
     
 }
 @property(nonatomic, unsafe_unretained)id<DVCardCreationDelegate> creatorDelegate;
+@property(nonatomic, assign) ECardCreationType cardCreationType;
 
 - (IBAction)editImage:(id)sender;
 - (void)createCardForCategory:(DVCategory*)parentCategory;

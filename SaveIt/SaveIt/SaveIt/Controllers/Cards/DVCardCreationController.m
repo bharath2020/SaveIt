@@ -30,6 +30,7 @@
 @synthesize cardToView = _cardToView;
 @synthesize editableCard = _editableCard;
 @synthesize creatorDelegate = _creatorDelegate;
+@synthesize cardCreationType;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,11 +58,17 @@
     mCancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing:)];
     self.title = @"Card Info";
     // Do any additional setup after loading the view from its nib.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:[mEditableHeaderView viewWithTag:799]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewDidChange:) name:UITextViewTextDidChangeNotification object:mNotesTextView];
+    [self setEditing:self.editing animated:NO];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:[mEditableHeaderView viewWithTag:799]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:mNotesTextView];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -70,12 +77,17 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardWillHideNotification object:nil];
+}
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardWillHideNotification object:nil];
+
     [self refreshDisplay];
     
 }
@@ -96,6 +108,14 @@
     imageView.image = [card icon];
     UILabel *titleLabel = (UILabel*)[tableHeaderView viewWithTag:799];
     titleLabel.text = [card title];
+    [mNotesTextView setText:[card note]];
+    [mNotesLabelView setText:[card note]];
+    
+    //adjust the size of the notes tableview
+    CGSize textSize = [[card note] sizeWithFont:mNotesLabelView.font constrainedToSize:CGSizeMake(mNotesLabelView.frame.size.width, 100.0f)];
+    CGRect textFrame = [mNotesLabelView.superview frame];
+    textFrame.size.height = textSize.height+10.0;
+    [mNotesLabelView.superview setFrame:textFrame];
 }
 
 - (void)refreshDisplay
@@ -113,7 +133,16 @@
 - (void)showCardInfo:(DVCard*)card
 {
    self.cardToView = card;
-    [self refreshDisplay];
+    if ([card hasCardId] )
+    {
+        [self refreshDisplay];
+
+    }
+    else {
+        self.editableCard = [_cardToView copy];
+        [self setEditing:YES animated:YES];
+    }
+    
 }
 
 #pragma Table Editing
@@ -121,6 +150,7 @@
 - (void)extractDataFromUI
 {
     _editableCard.title = [(UILabel*)[mCardInfoView.tableHeaderView viewWithTag:799] text];
+    _editableCard.note = mNotesTextView.text;
 }
 
 - (void)editCard:(id)sender
@@ -132,12 +162,16 @@
         [self.creatorDelegate cardCreation:self didEditCard:_cardToView];
         [mCardInfoView reloadData];
     }
+    else {
+        self.editableCard = [_cardToView copy];    
+    }
     [self setEditing:!mCardInfoView.editing animated:YES];
 }
 
 - (void)cancelEditing:(id)sender
 {
     [self setEditing:NO animated:YES];
+    [self.creatorDelegate cardCreationDidCancel:self];
 }
 
 - (IBAction)editImage:(id)sender
@@ -152,13 +186,11 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
-    if( editing )
-    {
-        self.editableCard = [_cardToView copy];    
-    }
+   
     
     [mCardInfoView setEditing:editing animated:animated];
     mCardInfoView.tableHeaderView = editing ? mEditableHeaderView : mNormalHeaderView;
+    mCardInfoView.tableFooterView = editing ? mEditableFooterView : mNormalFooterView;
     [mCardInfoView reloadData];
     self.navigationItem.rightBarButtonItem = editing ? mDoneButton : mEditButton;
     self.navigationItem.leftBarButtonItem = editing ? mCancelButton : nil;
@@ -285,6 +317,14 @@
 }
 
 
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    [(UILabel*)[mFooterTitleView viewWithTag:100] setText:tableView.editing ? @"Enter Notes:" : @"Notes:"];
+    return mFooterTitleView;    
+}
+
+
 #pragma DVCardCellDelegate
 -(void)textFieldCellTextDidChange:(DVCardCell*)cell text:(NSString*)newText
 {
@@ -315,6 +355,18 @@
         BOOL isScrambled = [_editableCard toggleScrambleAtIndex:cellIndex.row-1];
         [cell setScrambleImage:  isScrambled ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"]];
     }
+}
+
+#pragma UITextFieldDidChange
+- (void)textDidChange:(id)sender
+{
+    [_editableCard setTitle:[(UITextField*)[sender object] text]];
+}
+
+- (void)textViewDidChange:(id)sender
+{
+    [_editableCard setNote:[mNotesTextView text]];
+
 }
 
 #pragma KeyboardNotification
