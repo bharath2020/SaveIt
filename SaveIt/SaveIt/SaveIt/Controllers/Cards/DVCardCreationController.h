@@ -10,6 +10,8 @@
 #import "DVCardCell.h"
 #import "DVIconPickerController.h"
 #import "DVFieldEditorController.h"
+#import "DVCategoryListViewController.h"
+
 
 @class DVCategory;
 @class DVCard;
@@ -25,10 +27,12 @@ typedef enum _CardCreation
 
 -(void)cardCreation:(DVCardCreationController*)controller didEditCard:(DVCard*)newCard;
 -(void)cardCreationDidCancel:(DVCardCreationController*)controller;
+-(NSUInteger)cardCreateionNumberOfCards:(DVCardCreationController*)controller;
+-(DVCard*)cardCreation:(DVCardCreationController*)controller cardAtIndex:(NSUInteger)index;
 
 @end
 
-@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate,DVIconPickerDelegate,DVFieldEditorProtocol>
+@interface DVCardCreationController : UIViewController<UITableViewDataSource, UITableViewDelegate,DVCardFieldCellDelegate,DVIconPickerDelegate,DVFieldEditorProtocol,DVCategorySelectionProtocol>
 {
     IBOutlet UITableView *mCardInfoView;
     IBOutlet UIImageView *mCardIconView;
@@ -39,7 +43,11 @@ typedef enum _CardCreation
     IBOutlet UILabel *mNotesLabelView;
     IBOutlet UIView *mEditableFooterView;
     IBOutlet UIView *mNormalFooterView;
-    IBOutlet UIView *mFooterTitleView;
+    
+    //navigation controls
+    IBOutlet UIBarButtonItem *mPrevButton;
+    IBOutlet UIBarButtonItem *mNextButton;
+    IBOutlet UILabel *mCardCountLabel;
     
     UIBarButtonItem *mEditButton;
     UIBarButtonItem *mDoneButton;
@@ -53,6 +61,6 @@ typedef enum _CardCreation
 
 - (IBAction)editImage:(id)sender;
 - (void)createCardForCategory:(DVCategory*)parentCategory;
-- (void)showCardInfo:(DVCard*)card;
+- (void)showCardInfo:(DVCard*)card atIndex:(NSUInteger)cardIndex;
 
 @end

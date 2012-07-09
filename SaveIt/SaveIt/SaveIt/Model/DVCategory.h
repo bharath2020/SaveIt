@@ -43,6 +43,7 @@ extern NSString *DVCategoryUpdatedNotification;
 -(void)copyFromCategory:(DVCategory*)otherCategory;
 
 -(BOOL)hasCategoryID;
+-(BOOL)isEqualToCategory:(DVCategory *)otherCategory;
 
 //methods
 -(void)setFieldNames:(NSString *)fieldNames scramble:(NSString*)scramble;

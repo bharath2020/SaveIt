@@ -186,6 +186,7 @@ static DVCategoryManager *sSharedManager = nil;
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [mObjects removeObject:category];
+                    [_selectedItems removeObject:category];
                     [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
                 });
             }
@@ -264,6 +265,7 @@ static DVCategoryManager *sSharedManager = nil;
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [mObjects removeObjectsInArray:[_selectedItems allObjects]];
+                    [_selectedItems removeAllObjects];
                     [[NSNotificationCenter defaultCenter ] postNotificationName:DVCategoriesUpdateNotification object:self];
                 });
             }

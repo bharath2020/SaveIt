@@ -16,6 +16,7 @@
     DVCard *_cardToView;
     DVCard *_editableCard;
     NSIndexPath *_selectedIndexPath;
+    NSUInteger _currentCardIndex;
 }
 @property(nonatomic, strong) DVCard *cardToView;
 @property(nonatomic, strong) DVCard *editableCard;
@@ -23,6 +24,7 @@
 - (void)updateHeaders;
 - (void)refreshDisplay;
 - (void)extractDataFromUI;
+- (void)updateNavigationControls;
 
 @end
 
@@ -100,6 +102,15 @@
 }
 
 #pragma Data update
+
+- (void)updateNavigationControls
+{
+    NSUInteger totalCards = [self.creatorDelegate cardCreateionNumberOfCards:self];
+    mPrevButton.enabled = _currentCardIndex >0;
+    mNextButton.enabled = _currentCardIndex != totalCards-1;
+    mCardCountLabel.text = [NSString stringWithFormat:@"%d of %d", _currentCardIndex+1, totalCards];
+}
+
 - (void)updateHeaders
 {
     DVCard *card = self.editing ? _editableCard : _cardToView;
@@ -122,6 +133,7 @@
 {
     [self updateHeaders];
     [mCardInfoView reloadData];
+    [self updateNavigationControls];
 }
 
 #pragma Public Methods
@@ -130,19 +142,17 @@
     
 }
 
-- (void)showCardInfo:(DVCard*)card
+- (void)showCardInfo:(DVCard*)card atIndex:(NSUInteger)cardIndex
 {
    self.cardToView = card;
+    _currentCardIndex = cardIndex;
     if ([card hasCardId] )
     {
         [self refreshDisplay];
-
     }
     else {
-        self.editableCard = [_cardToView copy];
-        [self setEditing:YES animated:YES];
+        [self editCard:mEditButton];
     }
-    
 }
 
 #pragma Table Editing
@@ -157,10 +167,20 @@
 {
     if( sender == mDoneButton )
     {
+        
        [self extractDataFromUI];
-        [_cardToView copyFromCard:_editableCard];
-        [self.creatorDelegate cardCreation:self didEditCard:_cardToView];
-        [mCardInfoView reloadData];
+        
+        if( [_editableCard.title isEqualToString:@""] )
+        {
+            UIAlertView *askForTitle = [[UIAlertView alloc] initWithTitle:@"Please enter the Title." message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [askForTitle show];
+            return;
+        }
+        else {
+            [_cardToView copyFromCard:_editableCard];
+            [self.creatorDelegate cardCreation:self didEditCard:_cardToView];
+            [mCardInfoView reloadData];
+        }      
     }
     else {
         self.editableCard = [_cardToView copy];    
@@ -182,6 +202,22 @@
     [iconPicker showImages];
 }
 
+- (IBAction)nextCard:(id)sender
+{
+    _currentCardIndex++;
+    DVCard *nextCard = [self.creatorDelegate cardCreation:self cardAtIndex:_currentCardIndex];
+    self.cardToView = nextCard;
+    [self refreshDisplay];
+}
+
+- (IBAction)prevCard:(id)sender
+{
+    _currentCardIndex--;
+    DVCard *nextCard = [self.creatorDelegate cardCreation:self cardAtIndex:_currentCardIndex];
+    self.cardToView = nextCard;
+    [self refreshDisplay];
+}
+
 #pragma Card Editing
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
@@ -191,6 +227,7 @@
     [mCardInfoView setEditing:editing animated:animated];
     mCardInfoView.tableHeaderView = editing ? mEditableHeaderView : mNormalHeaderView;
     mCardInfoView.tableFooterView = editing ? mEditableFooterView : mNormalFooterView;
+
     [mCardInfoView reloadData];
     self.navigationItem.rightBarButtonItem = editing ? mDoneButton : mEditButton;
     self.navigationItem.leftBarButtonItem = editing ? mCancelButton : nil;
@@ -310,20 +347,19 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     _selectedIndexPath = indexPath;
-    DVFieldEditorController *fieldEditor = [[DVFieldEditorController alloc] initWithNibName:@"DVFieldEditorController" bundle:nil];
-    fieldEditor.fieldEditorDelegate = self;
-    [self.navigationController pushViewController:fieldEditor animated:YES];
-    [fieldEditor editWithFieldName:[_editableCard fieldNameAtIndex:indexPath.row-1] fieldValue:[_editableCard fieldValueAtIndex:indexPath.row-1] scramble:[_editableCard isFieldScrambledAtIndex:indexPath.row-1]];
+    if( indexPath.row ==0 )
+    {
+        DVCategoryListViewController *categoryListView = [[DVCategoryListViewController alloc] initWithNibName:@"DVCategoryListViewController" bundle:nil];
+        categoryListView.categorySelectionDelegate = self;
+        [self.navigationController pushViewController:categoryListView animated:YES];
+    }
+    else {
+        DVFieldEditorController *fieldEditor = [[DVFieldEditorController alloc] initWithNibName:@"DVFieldEditorController" bundle:nil];
+        fieldEditor.fieldEditorDelegate = self;
+        [self.navigationController pushViewController:fieldEditor animated:YES];
+        [fieldEditor editWithFieldName:[_editableCard fieldNameAtIndex:indexPath.row-1] fieldValue:[_editableCard fieldValueAtIndex:indexPath.row-1] scramble:[_editableCard isFieldScrambledAtIndex:indexPath.row-1]];
+    }
 }
-
-
-
-- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    [(UILabel*)[mFooterTitleView viewWithTag:100] setText:tableView.editing ? @"Enter Notes:" : @"Notes:"];
-    return mFooterTitleView;    
-}
-
 
 #pragma DVCardCellDelegate
 -(void)textFieldCellTextDidChange:(DVCardCell*)cell text:(NSString*)newText
@@ -405,5 +441,29 @@
     [self.navigationController popToViewController:self animated:YES];
 }
 
+
+#pragma DVCardSelectionProtocol
+- (BOOL)categoryListView:(DVCategoryListViewController*)categoryListView didSelectCategory:(DVCategory*)category
+{
+    if( ![_editableCard hasCardId] )
+    {
+        if( ![_editableCard.category isEqualToCategory:category] )
+        {
+            DVCard *newCard = [DVCard cardFromCategory:category];
+            self.cardToView = newCard;
+            self.editableCard = newCard;
+        }
+        else {
+            _editableCard.iconName = category.iconName;
+
+        }
+    }
+    else {
+        _editableCard.category = category;
+    }
+    [self refreshDisplay];
+    [self.navigationController popToViewController:self animated:YES];
+    return YES;
+}
 
 @end

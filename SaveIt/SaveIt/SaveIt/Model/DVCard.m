@@ -90,6 +90,16 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
     }
 }
 
+#pragma Getters
+- (NSString *)note
+{
+    return mNote ? mNote : @"";
+}
+ - (NSString *)title
+{
+    return  mTitle ? mTitle : @"";
+}
+
 #pragma Methods
 
 -(BOOL)hasCardId
@@ -244,12 +254,6 @@ NSString *const DVCardDidUpdateNotification = @"card_update";
 {
     UIImage *icon =   [UIImage imageFromDocuments:self.iconName];
     return  icon!= nil ? icon : [UIImage imageNamed:@"no_cat_image.png"];
-}
-
-- (void)setNote:(NSString *)note
-{
-    mNote = note;
-    NSLog(@"New %@", note);
 }
 
 -(void)loadDetails

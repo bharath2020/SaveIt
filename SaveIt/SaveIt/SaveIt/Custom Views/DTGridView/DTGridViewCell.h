@@ -33,6 +33,7 @@ typedef enum _GridCellType
 	id<DTGridViewCellDelegate> delegate;
     
     UIImageView *imageView;
+    UIImageView *_selectedStateImageView;
     UILabel *mTitleLabel;
     EGridCellType _gridCellType;
 	

@@ -16,7 +16,6 @@
     IBOutlet UITableView *mCardsListView;
     
     DVCategoryManager *_categoryManager;
-    DVCategory *mCurrentCategory;
 }
 
 

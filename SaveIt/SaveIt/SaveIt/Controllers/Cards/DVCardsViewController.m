@@ -13,7 +13,14 @@
 #import "DVCardCreationController.h"
 
 @interface DVCardsViewController ()
+{
+    DVCategory *mCurrentCategory;
+    NSUInteger _currentCategoryIndex;
+    UISegmentedControl *navigationControl;
 
+}
+- (void)loadCategory:(DVCategory*)newCategory;
+- (void)updateNavigationControl;
 @end
 
 
@@ -26,7 +33,7 @@
         // Custom initialization
         self.title = @"Cards";
         self.tabBarItem.image = [UIImage imageNamed:@"44-shoebox.png"];
-
+        _currentCategoryIndex= 0;
         _categoryManager = [DVCategoryManager sharedInstance];
 
     }
@@ -47,18 +54,24 @@
 {
     [super viewDidLoad];
     
+   
+    mCardsListView.rowHeight = 60.0;
+    
+    navigationControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:[UIImage imageNamed:@"up_arrow.png"], [UIImage imageNamed:@"down_arrow.png"],nil]];
+    navigationControl.segmentedControlStyle = UISegmentedControlStyleBar;
+    navigationControl.momentary = YES;
+    [navigationControl addTarget:self action:@selector(navigateCategories:) forControlEvents:UIControlEventValueChanged];
+    UIBarButtonItem *segmentBar = [[UIBarButtonItem alloc] initWithCustomView:navigationControl];
+    self.navigationItem.rightBarButtonItem = segmentBar;
+    
+    
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewCard:)];
+    self.navigationItem.leftBarButtonItem = addButton;
     // Do any additional setup after loading the view from its nib.
     [_categoryManager loadCategories:^(BOOL finished){
         DVCategory *category = [_categoryManager categoryAtIndex:0];
-        [category loadCards:^(BOOL finished){
-            mCurrentCategory=category;
-            [mCardsListView reloadData]; 
-        }];
+        [self loadCategory:category];
     }];
-    mCardsListView.rowHeight = 60.0;
-    
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewCard:)];
-    self.navigationItem.rightBarButtonItem = addButton;
 }
 
 - (void)viewDidUnload
@@ -66,7 +79,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.title = @"Cards";
+    navigationControl=nil;
 
 }
 
@@ -81,15 +94,51 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)loadCategory:(DVCategory*)newCategory
+{
+    [newCategory loadCards:^(BOOL finished){
+        mCurrentCategory=newCategory;
+        [mCardsListView reloadData];
+        [self updateNavigationControl];
+    }];
+    [self updateNavigationControl];
+
+}
+
+- (void)updateNavigationControl
+{
+    [navigationControl setEnabled:(_currentCategoryIndex>0) forSegmentAtIndex:0];
+    [navigationControl setEnabled:(_currentCategoryIndex != [_categoryManager totalCategories]-1) forSegmentAtIndex:1];
+    DVCategory *category = [_categoryManager categoryAtIndex:_currentCategoryIndex];
+    self.title = category.categoryName;
+}
+
 #pragma Action
 - (void)addNewCard:(id)sender
 {
     DVCardCreationController *cardCreation = [[DVCardCreationController alloc] initWithNibName:@"DVCardCreationController" bundle:nil];
     cardCreation.cardCreationType = eCreateNewCardMode;
+    cardCreation.hidesBottomBarWhenPushed = YES;
     [cardCreation setCreatorDelegate:self];
     [self.navigationController pushViewController:cardCreation animated:YES];
     
-    [cardCreation showCardInfo:[DVCard cardFromCategory:mCurrentCategory]];
+    [cardCreation showCardInfo:[DVCard cardFromCategory:mCurrentCategory] atIndex:[mCurrentCategory.cardManager totalCards]];
+}
+
+- (void)navigateCategories:(id)sender
+{
+    if( 0 == [sender selectedSegmentIndex] )
+    {
+        _currentCategoryIndex--;
+
+    }
+    else {
+        _currentCategoryIndex++;
+
+    }
+    NSLog(@"prev %d", _currentCategoryIndex);
+    DVCategory *nextCategory = [_categoryManager categoryAtIndex:_currentCategoryIndex];
+    [self loadCategory:nextCategory];
 }
 
 #pragma UITableView Data Source
@@ -121,9 +170,10 @@
 {
     DVCard *card = [mCurrentCategory.cardManager cardAtIndex:indexPath.row];
     DVCardCreationController *cardCreation = [[DVCardCreationController alloc] initWithNibName:@"DVCardCreationController" bundle:nil];
+    cardCreation.hidesBottomBarWhenPushed = YES;
     [cardCreation setCreatorDelegate:self];
     [self.navigationController pushViewController:cardCreation animated:YES];
-    [cardCreation showCardInfo:card];
+    [cardCreation showCardInfo:card atIndex:indexPath.row];
 }
 
 #pragma DVCardCreationController
@@ -131,11 +181,22 @@
 {
     if( controller.cardCreationType == eCreateNewCardMode )
     {
-        [mCurrentCategory.cardManager addCard:newCard];
+        [newCard.category.cardManager addCard:newCard];
         [self.navigationController popToViewController:self animated:YES];
     }
     else {
-        [mCurrentCategory.cardManager saveCard:newCard];
+        
+        //suppose if the category is being edited.
+        if( [newCard.category isEqualToCategory:mCurrentCategory] )
+        {
+            [mCurrentCategory.cardManager saveCard:newCard];
+        }
+        else {
+            [newCard.category.cardManager saveCard:newCard];
+            [mCurrentCategory.cardManager loadCards:^(BOOL completed){
+                [mCardsListView reloadData]; 
+            }];
+        }
     }
 }
 
@@ -145,6 +206,16 @@
     {
         [self.navigationController popToViewController:self animated:YES];
     }
+}
+
+-(NSUInteger)cardCreateionNumberOfCards:(DVCardCreationController*)controller
+{
+    return [mCurrentCategory.cardManager totalCards];
+}
+
+-(DVCard*)cardCreation:(DVCardCreationController*)controller cardAtIndex:(NSUInteger)index
+{
+    return [mCurrentCategory.cardManager cardAtIndex:index];
 }
 
 @end

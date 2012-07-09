@@ -31,6 +31,8 @@
 	if (![super initWithFrame:CGRectZero])
 		return nil;
 	
+
+    
 	identifier = [anIdentifier copy];
     imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -46,6 +48,9 @@
     self.gridCellType = eGridCellImageAndTextType;
 //    self.layer.borderWidth = 1.0;
 //    self.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    _selectedStateImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self addSubview:_selectedStateImageView];
 	return self;
 }
 
@@ -69,6 +74,8 @@
     }
     imageView.frame = imageRect;
     mTitleLabel.frame = labelRect;
+    
+    _selectedStateImageView.frame = CGRectMake(self.bounds.size.width-16.0,0.0, 16.0, 16.0);
 }
 
 - (void)awakeFromNib {
@@ -99,7 +106,7 @@
 
 -(void)setTick:(BOOL)inTick
 {
-    self.backgroundColor = (inTick ? [UIColor greenColor] : [ UIColor clearColor]);
+    _selectedStateImageView.image = inTick ? [UIImage imageNamed:@"good_or_tick.png"] : nil;
 }
 
 #pragma mark -

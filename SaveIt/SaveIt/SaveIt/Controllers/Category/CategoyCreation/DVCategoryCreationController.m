@@ -46,6 +46,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:[mEditableHeaderView viewWithTag:799]];
+    
     self.title = @"Category Info";
     mCategoryListView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
     mEditableHeaderView.backgroundColor = [UIColor colorWithRed:1.0 green:254.0/255.0 blue:200.0/255.0 alpha:1.0];
@@ -58,11 +62,16 @@
     
     mDoneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(editCategory:)];
     mCancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing:)];
+    
+    [self setEditing:self.editing animated:NO];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:[mEditableHeaderView viewWithTag:799]];
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
     //self.mTableView = nil;
@@ -81,14 +90,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardWillHideNotification object:nil];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardWillHideNotification object:nil];
-    [self updateDisplay];
+       [self updateDisplay];
 
 }
 
@@ -116,6 +126,7 @@
     imageView.image = [category icon];
     UILabel *titleLabel = (UILabel*)[tableHeaderView viewWithTag:799];
     titleLabel.text = category.categoryName;
+    [mCategoryListView reloadData];
 }
 
 - (void)extractDataFromUI
@@ -132,6 +143,9 @@
         [self.category copyFromCategory:mEditableCategory];
         [self.creatorDelegate categoryCreation:self didEditCategory:self.category];
         [mCategoryListView reloadData];
+    }
+    else {
+            self.editableCategory = [mCategory copy];    
     }
     [self setEditing:!mCategoryListView.isEditing animated:YES];
 
@@ -155,10 +169,7 @@
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
     [super setEditing:editing animated:animated];
-    if( editing )
-    {
-        self.editableCategory = [mCategory copy];    
-    }
+  
     
     [mCategoryListView setEditing:editing animated:animated];
     mCategoryListView.tableHeaderView = editing ? mEditableHeaderView : mNormalHeaderView;
@@ -286,6 +297,12 @@
         BOOL isScrambled = [mEditableCategory toggleScrambleAtIndex:cellIndex.row];
         cell.mImageView.image = isScrambled ?  [UIImage imageNamed:@"Lock_icon.png"] : [UIImage imageNamed:@"unlock.png"];
     }
+}
+
+#pragma UITextFieldDidChangeNotification
+- (void)textDidChange:(NSNotification*)notification
+{
+    [mEditableCategory setCategoryName:[[notification object] text]];
 }
 
 #pragma KeyboardNotification

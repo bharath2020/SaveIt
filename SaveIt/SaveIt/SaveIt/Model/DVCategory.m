@@ -75,7 +75,11 @@ NSString *DVCategoryUpdatedNotification = @"category_update";
         [self->mFieldNames removeAllObjects];
         [self->mFieldNames  addObjectsFromArray:otherCategory->mFieldNames];
     }
+}
 
+-(BOOL)isEqualToCategory:(DVCategory *)otherCategory
+{
+    return self.categoryID == otherCategory.categoryID;
 }
 
 - (void)dealloc

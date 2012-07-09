@@ -31,6 +31,7 @@
 @synthesize mEditToolBar;
 @synthesize mSelectAllButton;
 @synthesize mDeleteButton;
+@synthesize categorySelectionDelegate = _categorySelectionDelegate;
 
 
 - (void)initialise
@@ -146,6 +147,7 @@
 {
     [mCategoryListView reloadData];
     [mCategoryGridView reloadData];
+    [self updateEditToolbar];
 }
 
 - (void)categorySelectionUpdate:(NSNotification*)notif
@@ -233,17 +235,20 @@
     if( self.editing)
     {
         [[DVCategoryManager sharedInstance] toggleSelectionAtIndex:index];
-        
         DTGridViewCell *cell =    [gridView cellForRow:rowIndex column:columnIndex];
         cell.tick = [[DVCategoryManager sharedInstance] isItemAtIndexSelected:index];
         [self updateEditToolbar];
     }
     else {
-        //show category creation
-        DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:[NSBundle mainBundle]];
-        categoryCreator.creatorDelegate = self;
-        [self.navigationController pushViewController:categoryCreator animated:YES];
-        [categoryCreator showDetailsOfCategory:[_sharedCategoryManager categoryAtIndex:index]];
+        DVCategory *selectedCategory = [_sharedCategoryManager categoryAtIndex:index];
+        if( ![self.categorySelectionDelegate categoryListView:self didSelectCategory:selectedCategory] )
+        {
+            //show category creation
+            DVCategoryCreationController *categoryCreator = [[DVCategoryCreationController alloc] initWithNibName:@"DVCategoryCreationController" bundle:[NSBundle mainBundle]];
+            categoryCreator.creatorDelegate = self;
+            [self.navigationController pushViewController:categoryCreator animated:YES];
+            [categoryCreator showDetailsOfCategory:selectedCategory];
+        }
     }
 }
 
@@ -305,8 +310,6 @@
 #pragma UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"%d",buttonIndex);
-
     switch (buttonIndex) {
         case 0:
         {
