@@ -28,6 +28,7 @@
 
 
 NSString *const DVCardDidUpdateNotification = @"card_update";
+NSString *const DVCardDidUpdateNotification = @"card_update"; 
 
 
 @implementation DVCard
