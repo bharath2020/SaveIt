@@ -27,7 +27,7 @@
 #define CARD_FIELD_SCRAMBLE @"card_field_scramble"
 
 
-NSString *const DVCardDidUpdateNotification = @"card_update";
+NSString *const DVCardDidUpdateNotification = @"card_update";;
 
 
 @implementation DVCard
